@@ -16,25 +16,77 @@
           {
             "group": "Getting started",
             "pages": [
+              "getting-started/about",
+              "getting-started/support",
               "index",
               "quickstart",
               "development"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Authentication",
             "pages": [
+              "api-authentication/index",
               "essentials/settings",
               "essentials/navigation"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Quick Guides",
             "pages": [
+              "quick-guides/onramp-flow",
+              "quick-guides/offramp-flow",
               "essentials/markdown",
               "essentials/code",
               "essentials/images",
               "essentials/reusable-snippets"
+            ]
+          },
+          {
+            "group": "Widget Integration",
+            "pages": [
+              "widget-integration/index",
+              "widget-integration/supported-query-params",
+              "widget-integration/theming",
+              "essentials/markdown",
+              "essentials/code",
+              "essentials/images",
+              "essentials/reusable-snippets"
+            ]
+          },
+          {
+            "group": "API Integration",
+            "pages": [
+              "api-integration/index"
+            ]
+          },
+          {
+            "group": "Ramp Providers",
+            "pages": [
+              "ramp-providers/index"
+            ]
+          },
+          {
+            "group": "Supported Assets",
+            "pages": [
+              "supported-assets/crypto",
+              "supported-assets/fiat",
+              "supported-assets/networks",
+              "supported-assets/payment-methods"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "webhooks/index",
+              "webhooks/signature",
+              "webhooks/events"
+            ]
+          },
+          {
+            "group": "Swaps",
+            "pages": [
+              "swaps/index"
             ]
           }
         ]
@@ -59,26 +111,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
