@@ -21,19 +21,12 @@
             "pages": [
               "getting-started/index",
               "getting-started/guide",
-              "getting-started/support",
-              "index",
-              "quickstart",
-              "development"
+              "getting-started/support"
             ]
           },
           {
             "group": "Authentication",
-            "pages": [
-              "api-authentication/index",
-              "essentials/settings",
-              "essentials/navigation"
-            ]
+            "pages": ["api-authentication/index"]
           },
           {
             "group": "Integration Guide",
@@ -44,11 +37,7 @@
             "pages": [
               "widget-integration/index",
               "widget-integration/supported-query-params",
-              "widget-integration/theming",
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "widget-integration/theming"
             ]
           },
           {
