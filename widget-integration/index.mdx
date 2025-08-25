@@ -1,5 +1,84 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: 'Intro'
+description: 'Choosing widget integration method.'
+icon: 'footprints'
 ---
 
+<Info>
+Requirements: API Key
+</Info>
+
+## Widget Integration
+
+The **Widget Integration** method is the simplest way to start accepting crypto transactions. Instead of building full API flows, you can embed our hosted widget in your app or website and configure it through URL query parameters.  
+
+### How It Works
+- Generate a widget URL with the parameters you want (e.g., wallet address, fiat/crypto, crypto-network, transaction type).  
+- Your frontend loads the widget via `<iframe>` or a redirect to our hosted widget.  
+- The widget handles all the UI, user flow, and compliance steps.  
+- Once a transaction is completed or its status changes, you receive **webhooks** on your server.  
+
+This makes the widget **plug-and-play**: drop it in, configure via URL, subscribe to webhooks, and you’re done.  
+
+---
+
+### Transaction Modes
+
+The widget supports **three modes**, controlled by the `type` query parameter:  
+
+- **Buy (`type=buy`)**  Users purchase crypto with fiat.  
+     ```
+     https://widget.orki.io?type=buy
+     ```
+
+- **Sell (`type=sell`)**   Users sell crypto and receive fiat.  
+     ```
+     https://widget.orki.io?type=sell
+     ```
+
+- **Swap (`type=swap`)**   Users swap one cryptocurrency for another.  
+     ```
+     https://widget.orki.io?type=swap
+     ```
+
+You may enable a combination of those modes in the widget by combining types
+```
+https://widget.orki.io?type=buy,sell,swap
+```
+
+In addition to the `mode` query parameter you can also pass in a lot of other [query parameters](/widget-integration/supported-query-parameters).
+
+---
+
+### Integration Flow
+
+1. **Generate widget URL**  
+   - Collect user-specific params (wallet, fiat/crypto, transaction type).  
+   - Construct the widget URL.  
+
+2. **Embed or redirect**  
+   - Display the widget in an `<iframe>` 
+   ```
+   <a href="https://buy.onramper.com?mode=buy&apiKey=api_key_here" target="_blank" class="button">Buy Crypto</a>
+   ```
+   - Redirect users to the hosted widget URL.  
+   ```
+   <iframe        
+    src="https://buy.onramper.com?mode=buy&apiKey=api_key_here"
+    title="Orki Ramp Widget"
+    width="420px"
+    height="630px"
+    allow="accelerometer; autoplay; camera; gyroscope; payment; microphone"
+    />
+    ```
+   
+
+3. **Handle webhooks**  
+   - Subscribe to webhook events for transaction status updates (pending, confirmed, failed) from your terminal.  
+   - Then update your internal records accordingly.  
+
+---
+
+✅ **When to use**  
+- You want to go live quickly without building custom flows.  
+- You’re okay with handing off the checkout UI to our hosted widget.   

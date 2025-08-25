@@ -1,5 +1,40 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: 'API Authentication'
+description: ''
+icon: 'key-round'
 ---
+
+<Info>
+  **Prerequisites**:
+  - Setup a partner account
+  - Obtain your API key
+</Info>
+
+Requests to our trade API endpoints require authentication via an API key.  
+
+<Steps>
+<Step title="Create a Partner Account">
+To get started, you must first [create a partner account](/getting-started/guide) on our platform.
+</Step>
+
+<Step title="Obtain Your API Key">
+Navigate to API Management section and generate an API Key.  
+
+</Step>
+
+<Step title="Use the API Key in requests to the trade API endpoints">
+```bash
+curl -X POST "https://api.money.orki.io/v1/quotes/buy" \
+  -H "X-ORKI-API-KEY: your_api_key_here"
+```
+
+Or when using our widget...
+
+```bash
+https://widget.money.orki.io?apiKey=your_api_key_here
+```
+</Step>
+</Steps>
+
+
 

@@ -7,9 +7,6 @@
     "light": "#006ad4",
     "dark": "#007fff"
   },
-  "icons": {
-    "library": "lucide"
-  },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
@@ -18,37 +15,22 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": [
-              "getting-started/index",
-              "getting-started/guide",
-              "getting-started/support",
-              "index",
-              "quickstart",
-              "development"
-            ]
+            "pages": ["getting-started/index", "getting-started/support"]
           },
           {
             "group": "Authentication",
-            "pages": [
-              "api-authentication/index",
-              "essentials/settings",
-              "essentials/navigation"
-            ]
+            "pages": ["api-authentication/index"]
           },
           {
-            "group": "Integration Guide",
-            "pages": ["integration-guides/index"]
+            "group": "Quick Guides",
+            "pages": ["quick-guides/onramp-flow", "quick-guides/offramp-flow"]
           },
           {
             "group": "Widget Integration",
             "pages": [
               "widget-integration/index",
               "widget-integration/supported-query-params",
-              "widget-integration/theming",
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "widget-integration/theming"
             ]
           },
           {
