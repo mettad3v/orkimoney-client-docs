@@ -1,0 +1,151 @@
+---
+title: 'Webhooks'
+description: 'Receive real-time updates whenever important events occur in your integration.'
+icon: 'webhook'
+---
+
+<Info>
+  **Prerequisites**:
+  - Setup a partner account
+  - Obtain your Webhook Secret Key
+</Info>
+
+Webhooks allow your application to receive **real-time notifications** from our system whenever specific events happen (e.g. a transaction is started, completed or failed).  
+Instead of polling our API, you can set up a webhook endpoint and we’ll push updates to you.
+
+---
+
+## Setting Up your Webhook
+
+1. **Create an HTTPS endpoint** on your server that can accept `POST` requests with a JSON payload.  
+2. **Register your endpoint** in the dashboard under **API management → Webhooks**.  
+3. **Select events** you want to subscribe to (e.g. `transaction.pending`, `transaction.success`, `transaction.failed`).  
+4. **Save** — events will now trigger requests to your webhook.
+
+---
+
+# Webhook Signatures
+
+Every webhook we send includes a **signature** to prove it really came from us.  
+You must verify this signature before trusting the webhook.
+
+---
+
+## Where is the signature?
+
+It’s in the request header: X-Signature: 
+
+---
+
+## How is it generated?
+
+- We take the **raw request body** (JSON string, not parsed).
+- We combine it with your **Webhook Secret** (you get this in your dashboard).
+- We run them through **HMAC-SHA256**.
+- The result is sent in `X-Signature`.
+
+---
+
+## How to verify
+
+On your server:
+
+1. Read the **raw body** of the request.  
+2. Use the same secret to compute your own HMAC-SHA256.  
+3. Compare your hash with `X-Signature`.  
+   - ✅ If they match → the webhook is valid.  
+   - ❌ If not → reject it.  
+
+---
+
+## Example: PHP (Laravel)
+
+```php
+use Illuminate\Http\Request;
+
+Route::post('/webhook', function (Request $request) {
+    $secret = config('services.webhooks.secret');
+    $signature = $request->header('X-Signature');
+    $payload = $request->getContent(); // raw body
+
+    $expected = hash_hmac('sha256', $payload, $secret);
+
+    if (!hash_equals($expected, $signature)) {
+        return response('Invalid signature', 400);
+    }
+
+    // ✅ Safe to process event
+    $event = json_decode($payload, true);
+    // handle $event...
+});
+```
+
+```js
+import crypto from "crypto";
+import express from "express";
+
+const app = express();
+
+// Capture raw body for signature check
+app.use(express.json({
+  verify: (req, res, buf) => { req.rawBody = buf }
+}));
+
+app.post("/webhook", (req, res) => {
+  const secret = process.env.WEBHOOK_SECRET;
+  const signature = req.header("X-Signature");
+
+  const expected = crypto
+    .createHmac("sha256", secret)
+    .update(req.rawBody)
+    .digest("hex");
+
+  if (expected !== signature) {
+    return res.status(400).send("Invalid signature");
+  }
+
+  // ✅ Valid webhook
+  console.log("Event:", req.body);
+  res.send("ok");
+});
+
+app.listen(3000)
+```
+## Response codes & retry policy
+
+- Return 200 OK (or 2xx) to acknowledge receipt.
+
+- If your endpoint returns non-2xx, we will retry delivering the event up to 2 times with exponential backoff (example schedule): 60s and 120s.
+
+- Make your endpoint idempotent — the same event may be delivered more than once.
+
+## Best practices
+
+- Always verify the signature before processing.
+
+- Use the raw body for verification.
+
+- Use timing-safe comparisons (`hash_equals` in PHP, `crypto.timingSafeEqual` in Node).
+
+- Keep endpoints fast — respond 200 quickly and process asynchronously if work is heavy.
+
+- Log incoming events and verification failures for debugging.
+
+- Use a dedicated domain/subdomain for webhooks (e.g. webhooks.example.com).
+
+- Rotate the webhook secret periodically and update your integration.
+
+- Ensure idempotency (store meta.version + data.id or event id to avoid duplicate processing).
+
+
+## Troubleshooting checklist
+
+- If validation fails, confirm you’re using the raw request body (not a parsed/pretty-printed string).
+
+- Confirm the secret matches the secret in the Dashboard.
+
+- Confirm the header name: `X-Signature`.
+
+- Check for proxy/web server behavior that might reformat the body (strip/modify whitespace).
+
+- Inspect raw incoming request bytes (server logs or request inspector) to compare computed vs received signature.

@@ -59,7 +59,7 @@
           },
           {
             "group": "Webhooks",
-            "pages": ["webhooks/index", "webhooks/signature", "webhooks/events"]
+            "pages": ["webhooks/webhooks", "webhooks/events"]
           },
           {
             "group": "Swaps",

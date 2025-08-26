@@ -1,5 +1,97 @@
 ---
 title: 'Events'
-description: 'Description of your new file.'
+description: 'Supported webhook events.'
+icon: 'activity'
 ---
 
+## Webhook Events
+
+We send webhook events whenever important activity happens (for example: transaction updates). Each webhook has two top-level keys:
+
+- meta — metadata about the event
+
+- data — details about the transaction
+
+### Supported Events
+
+| Event                 | When it's sent                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| `transaction.pending` | A transaction has been created and is awaiting confirmation (payment or blockchain confirmation). |
+| `transaction.success` | The transaction was successfully processed and confirmed.                                         |
+| `transaction.failed`  | The transaction could not be completed (payment declined, blockchain error, etc.).                |
+
+---
+
+## Example Event Payload
+
+```json
+{
+  "meta": {
+    "version": "1.0",
+    "server_time": 1735303290,
+    "event": "transaction.success"
+  },
+  "data": {
+    "id": "12345",
+    "provider_transaction_id": "abc-789",
+    "type": "buy",
+    "sender_address": "0x123...",
+    "recipient_address": "0x456...",
+    "exchange_rate": "1.05",
+    "transaction_hash": "0xdeadbeef...",
+    "provider_fee": "2.50",
+    "orki_fee": "0.50",
+    "network_fee": "0.20",
+    "fiat_amount": "100.00",
+    "crypto_amount": "0.0023",
+    "fiat_currency": "USD",
+    "crypto_currency": "ETH",
+    "network": "ethereum",
+    "transaction_method": "card",
+    "status": "completed",
+    "provider": "stripe",
+    "created_at": "2025-08-26T10:00:00Z"
+  }
+}
+```
+
+## Meta object reference 
+
+| Field         |    Type | Description                                                                      |
+| ------------- | ------: | -------------------------------------------------------------------------------- |
+| `version`     |  string | Webhook format version (currently `1.0`).                                        |
+| `server_time` | integer | Unix timestamp when event was created.                                           |
+| `event`       |  enum | Event type (`transaction.pending`, `transaction.success`, `transaction.failed`). |
+
+## Data object reference
+
+| Field                     |   Type | Description                                          |
+| ------------------------- | -----: | ---------------------------------------------------- |
+| `id`                      | string | Internal event ID.                                   |
+| `provider_transaction_id` | string | ID from the payment provider.                        |
+| `type`                    | string | Transaction type (`buy`, `sell`).                    |
+| `sender_address`          | string | Blockchain address of sender.                        |
+| `recipient_address`       | string | Blockchain address of recipient.                     |
+| `exchange_rate`           | string | Fiat-to-crypto rate applied.                         |
+| `transaction_hash`        | string | Blockchain transaction hash.                         |
+| `provider_fee`            | string | Fee charged by provider.                             |
+| `orki_fee`                | string | Our platform fee.                                    |
+| `network_fee`             | string | Network (gas) fee.                                   |
+| `fiat_amount`             | string | Amount in fiat currency.                             |
+| `crypto_amount`           | string | Amount in crypto.                                    |
+| `fiat_currency`           | string | ISO code of fiat currency (e.g. `USD`, `EUR`).       |
+| `crypto_currency`         | string | Symbol of crypto asset (e.g. `ETH`, `BTC`).          |
+| `network`                 | string | Blockchain network (e.g. `ethereum`, `bitcoin`).     |
+| `payment_method`          | string | Method used (e.g. `credit_debit_card`, `bank_transfer`).          |
+| `status`                  | string | Transaction status (`pending`, `success`, `failed`). |
+| `provider`                | string | Payment provider name.                               |
+| `created_at`              | string | ISO timestamp of creation.                           |
+
+
+## Supported Events
+
+| Event                 | When it's sent                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| `transaction.pending` | A transaction has been created and is awaiting confirmation (payment or blockchain confirmation). |
+| `transaction.success` | The transaction was successfully processed and confirmed.                                         |
+| `transaction.failed`  | The transaction could not be completed (payment declined, blockchain error, etc.).                |
