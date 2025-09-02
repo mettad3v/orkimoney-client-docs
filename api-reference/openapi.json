@@ -56,12 +56,7 @@
                 }
               }
             }
-          },
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ]
+          }
         }
       },
       "post": {
