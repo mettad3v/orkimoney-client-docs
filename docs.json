@@ -2,6 +2,10 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "willow",
   "name": "Mint Starter Kit",
+  "appearance": {
+    "default": "light",
+    "strict": false
+  },
   "colors": {
     "primary": "#5b29ec",
     "light": "#006ad4",
@@ -71,16 +75,31 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
-            "pages": ["api-reference/introduction"]
+            "group": "Supported Assets",
+            "pages": [
+              "api-reference/assets/crypto",
+              "api-reference/assets/fiat",
+              "api-reference/assets/payment-methods"
+            ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Transactions",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/transactions/index",
+              "api-reference/transactions/show"
+            ]
+          },
+          {
+            "group": "Providers",
+            "pages": [
+              "api-reference/providers/index"
+            ]
+          },
+          {
+            "group": "Quotes",
+            "pages": [
+              "api-reference/quotes/buy",
+              "api-reference/quotes/sell"
             ]
           }
         ]
