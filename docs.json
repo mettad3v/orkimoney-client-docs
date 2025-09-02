@@ -99,7 +99,8 @@
             "group": "Quotes",
             "pages": [
               "api-reference/quotes/buy",
-              "api-reference/quotes/sell"
+              "api-reference/quotes/sell",
+              "api-reference/quotes/selected"
             ]
           }
         ]

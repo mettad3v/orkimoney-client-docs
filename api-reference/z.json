@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://api.money.orki.io"
+      "url": "http://sandbox.mintlify.com"
     }
   ],
   "security": [
@@ -208,10 +208,9 @@
       }
     },
     "securitySchemes": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-ORKI-API-KEY"
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }
