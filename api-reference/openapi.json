@@ -129,18 +129,63 @@
         }
       }
     },
-    "/api/v1/merchant/transactions/{transaction_id}": {
+    "/api/v1/partner/transactions/{transaction_id}": {
       "get": {
         "summary": "Show Transaction by Merchant.",
         "operationId": "showTransactionByMerchant",
         "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transaction_id",
+            "description": "The ID of the transaction.",
+            "example": "01jwm8tchegxy37f12jck7b0bx",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Transaction fetched successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Transaction fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string", "example": "01jwm8tchegxy37f12jck7b0bx" },
+                        "provider_tx_id": { "type": "string", "example": "cos_1RUyHbQRBKAgk6f06LOvXqFU" },
+                        "type": { "type": "string", "example": "BUY" },
+                        "sender_address": { "type": ["string", "null"], "example": null },
+                        "recipient_address": { "type": "string", "example": "0x5f661d0e61d3F79DA6605AB6173453084599c5aC" },
+                        "exchange_rate": { "type": "number", "example": 239.20 },
+                        "transaction_hash": { "type": "string", "example": "random_hash_here" },
+                        "provider_fee": { "type": "number", "example": 60.60 },
+                        "orki_fee": { "type": ["number", "null"], "example": null },
+                        "network_fee": { "type": "number", "example": 0.05 },
+                        "fiat_amount": { "type": "number", "example": 400 },
+                        "crypto_amount": { "type": "number", "example": 1500 },
+                        "fiat_currency": { "type": "string", "example": "USD" },
+                        "crypto_currency": { "type": "string", "example": "eth" },
+                        "network": { "type": "string", "example": "ethereum" },
+                        "payment_method": { "type": "string", "example": "credit_debit_card" },
+                        "status": { "type": "string", "example": "success" },
+                        "provider": { "type": "string", "example": "stripe" },
+                        "created_at": { "type": "string", "example": "2025-05-31T22:53:51.000000Z" },
+                        "processed_at": { "type": "string", "example": "2025-06-01T23:50:50.000000Z" }
+                      }
+                    },
+                    "success": { "type": "boolean", "example": true },
+                    "code": { "type": "integer", "example": 200 }
+                  },
                   "example": {
                     "msg": "Transaction fetched successfully",
                     "data": {
@@ -149,11 +194,11 @@
                       "type": "BUY",
                       "sender_address": null,
                       "recipient_address": "0x5f661d0e61d3F79DA6605AB6173453084599c5aC",
-                      "exchange_rate": "239.200000",
+                      "exchange_rate": 239.20,
                       "transaction_hash": "random_hash_here",
-                      "provider_fee": "60.600000",
+                      "provider_fee": 60.60,
                       "orki_fee": null,
-                      "network_fee": "0.050000",
+                      "network_fee": 0.05,
                       "fiat_amount": 400,
                       "crypto_amount": 1500,
                       "fiat_currency": "USD",
@@ -167,131 +212,18 @@
                     },
                     "success": true,
                     "code": 200
-                  },
-                  "properties": {
-                    "msg": {
-                      "type": "string",
-                      "example": "Transaction fetched successfully"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "01jwm8tchegxy37f12jck7b0bx"
-                        },
-                        "provider_tx_id": {
-                          "type": "string",
-                          "example": "cos_1RUyHbQRBKAgk6f06LOvXqFU"
-                        },
-                        "type": {
-                          "type": "string",
-                          "example": "BUY"
-                        },
-                        "sender_address": {
-                          "type": "string",
-                          "example": null
-                        },
-                        "recipient_address": {
-                          "type": "string",
-                          "example": "0x5f661d0e61d3F79DA6605AB6173453084599c5aC"
-                        },
-                        "exchange_rate": {
-                          "type": "string",
-                          "example": "239.200000"
-                        },
-                        "transaction_hash": {
-                          "type": "string",
-                          "example": "random_hash_here"
-                        },
-                        "provider_fee": {
-                          "type": "string",
-                          "example": "60.600000"
-                        },
-                        "orki_fee": {
-                          "type": "string",
-                          "example": null
-                        },
-                        "network_fee": {
-                          "type": "string",
-                          "example": "0.050000"
-                        },
-                        "fiat_amount": {
-                          "type": "integer",
-                          "example": 400
-                        },
-                        "crypto_amount": {
-                          "type": "integer",
-                          "example": 1500
-                        },
-                        "fiat_currency": {
-                          "type": "string",
-                          "example": "USD"
-                        },
-                        "crypto_currency": {
-                          "type": "string",
-                          "example": "eth"
-                        },
-                        "network": {
-                          "type": "string",
-                          "example": "ethereum"
-                        },
-                        "payment_method": {
-                          "type": "string",
-                          "example": "credit_debit_card"
-                        },
-                        "status": {
-                          "type": "string",
-                          "example": "success"
-                        },
-                        "provider": {
-                          "type": "string",
-                          "example": "stripe"
-                        },
-                        "created_at": {
-                          "type": "string",
-                          "example": "2025-05-31T22:53:51.000000Z"
-                        },
-                        "processed_at": {
-                          "type": "string",
-                          "example": "2025-06-01T23:50:50.000000Z"
-                        }
-                      }
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "code": {
-                      "type": "integer",
-                      "example": 200
-                    }
                   }
                 }
               }
             }
           }
         },
-        "tags": [
-          "Merchant"
-        ]
-      },
-      "parameters": [
-        {
-          "in": "path",
-          "name": "transaction_id",
-          "description": "The ID of the transaction.",
-          "example": "01jwm8tchegxy37f12jck7b0bx",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
+        "tags": ["Merchant"]
+      }
     },
-    "/api/v1/merchant/transactions": {
+    "/api/v1/partner/transactions": {
       "get": {
-        "summary": "Show Transactions by Merchant.",
+        "summary": "Show Partner Transactions.",
         "operationId": "showTransactionsByMerchant",
         "description": "",
         "parameters": [
@@ -339,11 +271,11 @@
                           "type": "BUY",
                           "sender_address": null,
                           "recipient_address": "0x5f661d0e61d3F79DA6605AB6173453084599c5aC",
-                          "exchange_rate": "239.200000",
+                          "exchange_rate": 239.20,
                           "transaction_hash": "random_hash_here",
-                          "provider_fee": "60.600000",
+                          "provider_fee": 60.60,
                           "orki_fee": null,
-                          "network_fee": "0.050000",
+                          "network_fee": 0.05,
                           "fiat_amount": 400,
                           "crypto_amount": 1500,
                           "fiat_currency": "USD",
@@ -361,7 +293,7 @@
                           "type": "BUY",
                           "sender_address": null,
                           "recipient_address": "UQB9tSE4jidlpbote0-hFXddpXi6PWYUL2JfrrVMJjcw0hrb",
-                          "exchange_rate": "1618.120000",
+                          "exchange_rate": 1618.12,
                           "transaction_hash": "6e9b376b9b8f6e1648e9b897e3fab31563ec5438c5d53d774c09061357d34677",
                           "provider_fee": null,
                           "orki_fee": null,
@@ -384,9 +316,9 @@
                         "currentPage": 1,
                         "lastPage": 5,
                         "firstPage": 1,
-                        "firstPageUrl": "https://money.orki.test/api/v1/merchant/transactions?page=1",
-                        "lastPageUrl": "https://money.orki.test/api/v1/merchant/transactions?page=5",
-                        "nextPageUrl": "https://money.orki.test/api/v1/merchant/transactions?page=2",
+                        "firstPageUrl": "https://money.orki.test/api/v1/partner/transactions?page=1",
+                        "lastPageUrl": "https://money.orki.test/api/v1/partner/transactions?page=5",
+                        "nextPageUrl": "https://money.orki.test/api/v1/partner/transactions?page=2",
                         "previousPageUrl": null
                       }
                     },
@@ -403,52 +335,6 @@
                       "properties": {
                         "transactions": {
                           "type": "array",
-                          "example": [
-                            {
-                              "id": "01jwm8tchegxy37f12jck7b0bx",
-                              "provider_tx_id": "cos_1RUyHbQRBKAgk6f06LOvXqFU",
-                              "type": "BUY",
-                              "sender_address": null,
-                              "recipient_address": "0x5f661d0e61d3F79DA6605AB6173453084599c5aC",
-                              "exchange_rate": "239.200000",
-                              "transaction_hash": "random_hash_here",
-                              "provider_fee": "60.600000",
-                              "orki_fee": null,
-                              "network_fee": "0.050000",
-                              "fiat_amount": 400,
-                              "crypto_amount": 1500,
-                              "fiat_currency": "USD",
-                              "crypto_currency": "eth",
-                              "network": "ethereum",
-                              "payment_method": "credit_debit_card",
-                              "status": "success",
-                              "provider": "stripe",
-                              "created_at": "2025-05-31T22:53:51.000000Z",
-                              "processed_at": "2025-06-01T23:50:50.000000Z"
-                            },
-                            {
-                              "id": "01jwmf9s2dmmtbq048xh94xxza",
-                              "provider_tx_id": "682d90414984372d417a43ee",
-                              "type": "BUY",
-                              "sender_address": null,
-                              "recipient_address": "UQB9tSE4jidlpbote0-hFXddpXi6PWYUL2JfrrVMJjcw0hrb",
-                              "exchange_rate": "1618.120000",
-                              "transaction_hash": "6e9b376b9b8f6e1648e9b897e3fab31563ec5438c5d53d774c09061357d34677",
-                              "provider_fee": null,
-                              "orki_fee": null,
-                              "network_fee": null,
-                              "fiat_amount": 40000,
-                              "crypto_amount": 18.54,
-                              "fiat_currency": "NGN",
-                              "crypto_currency": "usdt",
-                              "network": "ton",
-                              "payment_method": "bank_transfer",
-                              "status": "success",
-                              "provider": "fonbnk",
-                              "created_at": "2025-06-01T00:47:07.000000Z",
-                              "processed_at": "2025-06-21T08:36:51.000000Z"
-                            }
-                          ],
                           "items": {
                             "type": "object",
                             "properties": {
@@ -473,24 +359,24 @@
                                 "example": "0x5f661d0e61d3F79DA6605AB6173453084599c5aC"
                               },
                               "exchange_rate": {
-                                "type": "string",
-                                "example": "239.200000"
+                                "type": "number",
+                                "example": 239.20
                               },
                               "transaction_hash": {
                                 "type": "string",
                                 "example": "random_hash_here"
                               },
                               "provider_fee": {
-                                "type": "string",
-                                "example": "60.600000"
+                                "type": "number",
+                                "example": 60.60
                               },
                               "orki_fee": {
                                 "type": "string",
                                 "example": null
                               },
                               "network_fee": {
-                                "type": "string",
-                                "example": "0.050000"
+                                "type": "number",
+                                "example": 0.05
                               },
                               "fiat_amount": {
                                 "type": "integer",
@@ -560,15 +446,15 @@
                             },
                             "firstPageUrl": {
                               "type": "string",
-                              "example": "https://money.orki.test/api/v1/merchant/transactions?page=1"
+                              "example": "https://money.orki.test/api/v1/partner/transactions?page=1"
                             },
                             "lastPageUrl": {
                               "type": "string",
-                              "example": "https://money.orki.test/api/v1/merchant/transactions?page=5"
+                              "example": "https://money.orki.test/api/v1/partner/transactions?page=5"
                             },
                             "nextPageUrl": {
                               "type": "string",
-                              "example": "https://money.orki.test/api/v1/merchant/transactions?page=2"
+                              "example": "https://money.orki.test/api/v1/partner/transactions?page=2"
                             },
                             "previousPageUrl": {
                               "type": "string",
@@ -594,25 +480,118 @@
         },
         "tags": [
           "Merchant"
-        ],
+        ]
+        
+      },
+       "post": {
+        "summary": "Create a Transaction",
+        "operationId": "postApiV1MerchantQuotesBuy",
+        "description": "",
+        "parameters": [],
+        "tags": ["Quotes API"],
         "requestBody": {
-          "required": false,
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "page": {
-                    "type": "integer",
-                    "description": "Must be at least 1.",
-                    "example": 7,
-                    "nullable": false
+                  "fiat_currency": {
+                    "type": "string",
+                    "example": "EUR"
                   },
-                  "per_page": {
-                    "type": "integer",
-                    "description": "Must be at least 1. Must not be greater than 100.",
-                    "example": 9,
-                    "nullable": false
+                  "crypto_currency": {
+                    "type": "string",
+                    "example": "BTC"
+                  },
+                  "payment_method": {
+                    "type": "string",
+                    "example": "credit_debit_card"
+                  },
+                  "network": {
+                    "type": "string",
+                    "example": "mainnet"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 900
+                  },
+                  "provider": {
+                    "type": "string",
+                    "example": "transak"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "BUY"
+                  }
+                },
+                "required": ["fiat_currency","crypto_currency","payment_method","network","amount","provider","type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": { "type": "string", "example": "success" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "request_id": { "type": "string", "example": "22474420-f94b-44b0-883f-5c42e4c735cb" },
+                        "quotes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "provider": {
+                                "type": "object",
+                                "properties": {
+                                  "name": { "type": "string", "example": "Guardarian" },
+                                  "identifier": { "type": "string", "example": "guardarian" },
+                                  "icon": { "type": "string", "example": "https://.../guardarian.svg" }
+                                }
+                              },
+                              "exchange_rate": { "type": "number", "example": 93023.26 },
+                              "is_best": { "type": "boolean", "example": true },
+                              "fiat_amount": { "type": "number", "example": 350 },
+                              "crypto_amount": { "type": "number", "example": 0.0037606 },
+                              "quote_amount": { "type": "number", "example": 0.0037606 },
+                              "link": { "type": "string", "nullable": true, "example": "buy-link" }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "success": { "type": "boolean", "example": true },
+                    "code": { "type": "integer", "example": 200 }
+                  },
+                  "example": {
+                    "msg": "success",
+                    "data": {
+                      "request_id": "22474420-f94b-44b0-883f-5c42e4c735cb",
+                      "quotes": [
+                        {
+                          "provider": {
+                            "name": "Guardarian",
+                            "identifier": "guardarian",
+                            "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
+                          },
+                          "exchange_rate": 93023.26,
+                          "is_best": true,
+                          "fiat_amount": 350,
+                          "crypto_amount": 0.0037606,
+                          "quote_amount": 0.0037606,
+                          "link": "buy-link"
+                        }
+                      ]
+                    },
+                    "success": true,
+                    "code": 200
                   }
                 }
               }
@@ -621,7 +600,7 @@
         }
       }
     },
-    "/api/v1/merchant/fiat-currencies": {
+    "/api/v1/partner/fiat-currencies": {
       "get": {
         "summary": "",
         "operationId": "getApiV1MerchantFiatCurrencies",
@@ -725,7 +704,7 @@
         ]
       }
     },
-    "/api/v1/merchant/crypto-currencies": {
+    "/api/v1/partner/crypto-currencies": {
       "get": {
         "summary": "",
         "operationId": "getApiV1MerchantCryptoCurrencies",
@@ -823,7 +802,7 @@
         ]
       }
     },
-    "/api/v1/merchant/payment-methods": {
+    "/api/v1/partner/payment-methods": {
       "get": {
         "summary": "",
         "operationId": "getApiV1MerchantPaymentMethods",
@@ -955,7 +934,7 @@
         ]
       }
     },
-    "/api/v1/merchant/quotes/selected": {
+    "/api/v1/partner/quotes/selected": {
       "patch": {
         "summary": "",
         "operationId": "patchApiV1MerchantQuotesSelected",
@@ -1052,7 +1031,7 @@
         ]
       }
     },
-    "/api/v1/merchant/providers": {
+    "/api/v1/partner/providers": {
       "get": {
         "summary": "",
         "operationId": "getApiV1MerchantProviders",
@@ -1126,306 +1105,153 @@
         ]
       }
     },
-    "/api/v1/merchant/quotes/buy": {
-      "post": {
-        "summary": "Get buy quotes",
-        "operationId": "postApiV1MerchantQuotesBuy",
-        "description": "",
-        "parameters": [],
-        "tags": ["Quotes API"],
-        "requestBody": {
+    "/api/v1/partner/quotes": {
+    "get": {
+      "summary": "Get quotations",
+      "operationId": "getApiV1PartnerQuotes",
+      "tags": [
+        "Quotes API"
+      ],
+      "parameters": [
+        {
+          "in": "query",
+          "name": "fiat_currency",
           "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "fiat_currency": { "type": "string", "example": "EUR" },
-                  "crypto_currency": { "type": "string", "example": "BTC" },
-                  "payment_method": { "type": "string", "example": "credit_debit_card" },
-                  "network": { "type": "string", "example": "mainnet" },
-                  "amount": { "type": "number", "example": 80 }
-                },
-                "required": ["fiat_currency","crypto_currency","payment_method","network","amount"]
-              }
-            }
-          }
+          "schema": {
+            "type": "string",
+            "description": "The fiat currency",
+            "example": "MXN"
+          },
+          "example": "MXN"
         },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "msg": { "type": "string", "example": "success" },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "request_id": { "type": "string", "example": "22474420-f94b-44b0-883f-5c42e4c735cb" },
-                        "quotes": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "provider": {
-                                "type": "object",
-                                "properties": {
-                                  "name": { "type": "string", "example": "Guardarian" },
-                                  "identifier": { "type": "string", "example": "guardarian" },
-                                  "icon": { "type": "string", "example": "https://.../guardarian.svg" }
-                                }
-                              },
-                              "exchange_rate": { "type": "number", "example": 93023.26 },
-                              "is_best": { "type": "boolean", "example": true },
-                              "asset": {
-                                "type": "object",
-                                "properties": {
-                                  "fiat": { "type": "string", "example": "CHF" },
-                                  "fiat_amount": { "type": "number", "example": 350 },
-                                  "crypto": { "type": "string", "example": "BTC" },
-                                  "network": { "type": "string", "example": "BTC" },
-                                  "crypto_amount": { "type": "number", "example": 0.0037606 },
-                                  "payment_method": { "type": "string", "example": "credit_debit_card" }
-                                }
-                              },
-                              "quote_amount": { "type": "number", "example": 0.0037606 },
-                              "link": { "type": "string", "nullable": true, "example": null },
-                              "is_supported": { "type": "boolean", "example": true },
-                              "widget": {
-                                "type": "object",
-                                "nullable": true,
-                                "properties": {
-                                  "fiat": { "type": "string", "example": "CHF" },
-                                  "crypto": { "type": "string", "example": "BTC" },
-                                  "network": { "type": "string", "example": "Bitcoin" },
-                                  "ticker": { "type": "string", "example": "BTC" },
-                                  "payment_method": { "type": "string", "example": "card" },
-                                  "metadata": {
-                                    "type": "object",
-                                    "properties": {
-                                      "orderID": { "type": "string", "example": "01K45K1MM7CCNJ21JM27AAM0VE" }
-                                    }
-                                  }
-                                }
-                              },
-                              "percentage_diff": { "type": "number", "example": 0 }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "success": { "type": "boolean", "example": true },
-                    "code": { "type": "integer", "example": 200 }
-                  },
-                  "example": {
-                    "msg": "success",
-                    "data": {
-                      "request_id": "22474420-f94b-44b0-883f-5c42e4c735cb",
-                      "quotes": [
-                        {
-                          "provider": {
-                            "name": "Guardarian",
-                            "identifier": "guardarian",
-                            "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
-                          },
-                          "exchange_rate": 93023.26,
-                          "is_best": true,
-                          "asset": {
-                            "fiat": "CHF",
-                            "fiat_amount": 350,
-                            "crypto": "BTC",
-                            "network": "BTC",
-                            "crypto_amount": 0.0037606,
-                            "payment_method": "credit_debit_card"
-                          },
-                          "quote_amount": 0.0037606,
-                          "link": null,
-                          "is_supported": true,
-                          "widget": null,
-                          "percentage_diff": 0
-                        },
-                        {
-                          "provider": {
-                            "name": "Coinify",
-                            "identifier": "coinify",
-                            "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/coinify.svg"
-                          },
-                          "exchange_rate": 93085.11,
-                          "is_best": false,
-                          "asset": {
-                            "fiat": "CHF",
-                            "fiat_amount": 350,
-                            "crypto": "BTC",
-                            "network": "mainnet",
-                            "crypto_amount": 0.00376,
-                            "payment_method": "card"
-                          },
-                          "quote_amount": 0.00376,
-                          "link": null,
-                          "is_supported": true,
-                          "widget": null,
-                          "percentage_diff": 0
-                        }
-                      ]
-                    },
-                    "success": true,
-                    "code": 200
-                  }
-                }
-              }
-            }
-          }
+        {
+          "in": "query",
+          "name": "crypto_currency",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "The crypto currency",
+            "example": "BTC"
+          },
+          "example": "BTC"
+        },
+        {
+          "in": "query",
+          "name": "payment_method",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "The payment method ",
+            "example": "credit_debit_card"
+          },
+          "example": "credit_debit_card"
+        },
+        {
+          "in": "query",
+          "name": "network",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "The network",
+            "example": "mainnet"
+          },
+          "example": "mainnet"
+        },
+        {
+          "in": "query",
+          "name": "amount",
+          "required": true,
+          "schema": {
+            "type": "number",
+            "description": "Amount",
+            "example": 900
+          },
+          "example": 900
+        },
+        {
+          "in": "query",
+          "name": "type",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "The type of ramp operation ",
+            "example": "BUY",
+            "enum": [
+              "BUY",
+              "SELL"
+            ]
+          },
+          "example": "BUY"
         }
-      }
-    },
-    "/api/v1/merchant/quotes/sell": {
-      "post": {
-        "summary": "Get buy quotes",
-        "operationId": "postApiV1MerchantQuotesBuy",
-        "description": "",
-        "parameters": [],
-        "tags": ["Quotes API"],
-        "requestBody": {
-          "required": true,
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful quotation response",
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "fiat_currency": { "type": "string", "example": "EUR" },
-                  "crypto_currency": { "type": "string", "example": "BTC" },
-                  "payment_method": { "type": "string", "example": "credit_debit_card" },
-                  "network": { "type": "string", "example": "mainnet" },
-                  "crypto_amount": { "type": "number", "example": 0.0022 }
-                },
-                "required": ["fiat_currency","crypto_currency","payment_method","network","crypto_amount"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "msg": { "type": "string", "example": "success" },
-                    "data": {
+                  "msg": {
+                    "type": "string",
+                    "example": "Success"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
                       "type": "object",
                       "properties": {
-                        "request_id": { "type": "string", "example": "22474420-f94b-44b0-883f-5c42e4c735cb" },
-                        "quotes": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "provider": {
-                                "type": "object",
-                                "properties": {
-                                  "name": { "type": "string", "example": "Guardarian" },
-                                  "identifier": { "type": "string", "example": "guardarian" },
-                                  "icon": { "type": "string", "example": "https://.../guardarian.svg" }
-                                }
-                              },
-                              "exchange_rate": { "type": "number", "example": 93023.26 },
-                              "is_best": { "type": "boolean", "example": true },
-                              "asset": {
-                                "type": "object",
-                                "properties": {
-                                  "fiat": { "type": "string", "example": "CHF" },
-                                  "fiat_amount": { "type": "number", "example": 350 },
-                                  "crypto": { "type": "string", "example": "BTC" },
-                                  "network": { "type": "string", "example": "BTC" },
-                                  "crypto_amount": { "type": "number", "example": 0.0037606 },
-                                  "payment_method": { "type": "string", "example": "credit_debit_card" }
-                                }
-                              },
-                              "quote_amount": { "type": "number", "example": 0.0037606 },
-                              "link": { "type": "string", "nullable": true, "example": null },
-                              "is_supported": { "type": "boolean", "example": true },
-                              "widget": {
-                                "type": "object",
-                                "nullable": true,
-                                "properties": {
-                                  "fiat": { "type": "string", "example": "CHF" },
-                                  "crypto": { "type": "string", "example": "BTC" },
-                                  "network": { "type": "string", "example": "Bitcoin" },
-                                  "ticker": { "type": "string", "example": "BTC" },
-                                  "payment_method": { "type": "string", "example": "card" },
-                                  "metadata": {
-                                    "type": "object",
-                                    "properties": {
-                                      "orderID": { "type": "string", "example": "01K45K1MM7CCNJ21JM27AAM0VE" }
-                                    }
-                                  }
-                                }
-                              },
-                              "percentage_diff": { "type": "number", "example": 0 }
+                        "provider": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "Transak"
+                            },
+                            "identifier": {
+                              "type": "string",
+                              "example": "transak"
+                            },
+                            "icon": {
+                              "type": "string",
+                              "example": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/transak.svg"
                             }
                           }
+                        },
+                        "exchange_rate": {
+                          "type": "number",
+                          "example": 2124319.04
+                        },
+                        "is_best": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "crypto_amount": {
+                          "type": "number",
+                          "example": 0.0004
+                        },
+                        "fiat_amount": {
+                          "type": "number",
+                          "example": 900
+                        },
+                        "quote_amount": {
+                          "type": "number",
+                          "example": 0.0004
+                        },
+                        "percentage_diff": {
+                          "type": "number",
+                          "example": 3.14
                         }
                       }
-                    },
-                    "success": { "type": "boolean", "example": true },
-                    "code": { "type": "integer", "example": 200 }
+                    }
                   },
-                  "example": {
-                    "msg": "success",
-                    "data": {
-                      "request_id": "22474420-f94b-44b0-883f-5c42e4c735cb",
-                      "quotes": [
-                        {
-                          "provider": {
-                            "name": "Guardarian",
-                            "identifier": "guardarian",
-                            "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
-                          },
-                          "exchange_rate": 93023.26,
-                          "is_best": true,
-                          "asset": {
-                            "fiat": "CHF",
-                            "fiat_amount": 350,
-                            "crypto": "BTC",
-                            "network": "BTC",
-                            "crypto_amount": 0.0037606,
-                            "payment_method": "credit_debit_card"
-                          },
-                          "quote_amount": 0.0037606,
-                          "link": null,
-                          "is_supported": true,
-                          "widget": null,
-                          "percentage_diff": 0
-                        },
-                        {
-                          "provider": {
-                            "name": "Coinify",
-                            "identifier": "coinify",
-                            "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/coinify.svg"
-                          },
-                          "exchange_rate": 93085.11,
-                          "is_best": false,
-                          "asset": {
-                            "fiat": "CHF",
-                            "fiat_amount": 350,
-                            "crypto": "BTC",
-                            "network": "mainnet",
-                            "crypto_amount": 0.00376,
-                            "payment_method": "card"
-                          },
-                          "quote_amount": 0.00376,
-                          "link": null,
-                          "is_supported": true,
-                          "widget": null,
-                          "percentage_diff": 0
-                        }
-                      ]
-                    },
-                    "success": true,
-                    "code": 200
+                  "success": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "code": {
+                    "type": "integer",
+                    "example": 200
                   }
                 }
               }
@@ -1434,7 +1260,7 @@
         }
       }
     }
-
+  }
   },
   "webhooks": {
     "/plant/webhook": {

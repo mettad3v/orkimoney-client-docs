@@ -21,5 +21,5 @@ icon: 'ampersand'
 | cryptoAmount   | BUY,SELL      |                                                                                         | number |   |
 | walletAddress  | BUY           |                                                                                         | string |   |
 | redirectUrl    | BUY,SELL,SWAP |                                                                                         | string |   |
-| sessionId      | BUY,SELL      | Used in tracking the same session across multiple devices                               | string |   |
+| sessionId      | BUY,SELL      | Used in tracking the same session across multiple devices                               | string (UUID) |   |
 | partnerContext | BUY,SELL      | A custom ID that can be passed into the request and also will be available in webhooks  | string |   |

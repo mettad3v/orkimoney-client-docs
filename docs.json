@@ -56,8 +56,8 @@
             "group": "Supported Assets",
             "pages": [
               "supported-assets/crypto",
-              "supported-assets/fiat",
               "supported-assets/networks",
+              "supported-assets/fiat",
               "supported-assets/payment-methods"
             ]
           },
@@ -85,6 +85,7 @@
           {
             "group": "Transactions",
             "pages": [
+              "api-reference/transactions/create",
               "api-reference/transactions/index",
               "api-reference/transactions/show"
             ]
@@ -98,9 +99,7 @@
           {
             "group": "Quotes",
             "pages": [
-              "api-reference/quotes/buy",
-              "api-reference/quotes/sell",
-              "api-reference/quotes/selected"
+              "api-reference/quotes/buy"
             ]
           }
         ]
