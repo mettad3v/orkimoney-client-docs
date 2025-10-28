@@ -64,10 +64,6 @@
           {
             "group": "Webhooks",
             "pages": ["webhooks/webhooks", "webhooks/events"]
-          },
-          {
-            "group": "Swaps",
-            "pages": ["swaps/index"]
           }
         ]
       },
