@@ -781,13 +781,13 @@
                     "code": "eth",
                     "network": "ethereum",
                     "name": "Ethereum",
-                    "crypto_icon": "asset-url"
+                    "crypto_icon": "https://asset-url.com"
                   },
                   {
                     "code": "btc",
                     "network": "mainnet",
                     "name": "Bitcoin",
-                    "crypto_icon": "https://assets-stg.transak.com/images/cryptoCurrency/bitcoin_small.png"
+                    "crypto_icon": "https://asset-url.com"
                   }
                 ],
                 "success": true,
@@ -934,103 +934,6 @@
         ]
       }
     },
-    "/api/v1/partner/quotes/selected": {
-      "patch": {
-        "summary": "",
-        "operationId": "patchApiV1MerchantQuotesSelected",
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "msg": "Success",
-                    "data": null,
-                    "success": true,
-                    "code": 200
-                  },
-                  "properties": {
-                    "msg": {
-                      "type": "string",
-                      "example": "Success"
-                    },
-                    "data": {
-                      "type": "string",
-                      "example": null
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "code": {
-                      "type": "integer",
-                      "example": 200
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Quotes API"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "provider": {
-                    "type": "string",
-                    "description": "",
-                    "example": "coinify",
-                    "nullable": false
-                  },
-                  "request_id": {
-                    "type": "string",
-                    "description": "",
-                    "example": "ad3f2853-decc-4e6f-a565-917d7d723e5b",
-                    "nullable": false
-                  }
-                },
-                "required": [
-                  "provider",
-                  "request_id"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/defaults": {
-      "get": {
-        "summary": "",
-        "operationId": "getApiV1Defaults",
-        "description": "",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-ORKI-API-KEY",
-            "description": "",
-            "example": "string required The API key for authentication.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "Quotes API"
-        ]
-      }
-    },
     "/api/v1/partner/providers": {
       "get": {
         "summary": "",
@@ -1106,152 +1009,153 @@
       }
     },
     "/api/v1/partner/quotes": {
-    "get": {
-      "summary": "Get quotations",
-      "operationId": "getApiV1PartnerQuotes",
-      "tags": [
-        "Quotes API"
-      ],
-      "parameters": [
-        {
-          "in": "query",
-          "name": "fiat_currency",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The fiat currency",
+      "get": {
+        "summary": "Get quotations",
+        "operationId": "getApiV1PartnerQuotes",
+        "tags": [
+          "Quotes API"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fiat_currency",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The fiat currency",
+              "example": "MXN"
+            },
             "example": "MXN"
           },
-          "example": "MXN"
-        },
-        {
-          "in": "query",
-          "name": "crypto_currency",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The crypto currency",
+          {
+            "in": "query",
+            "name": "crypto_currency",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The crypto currency",
+              "example": "BTC"
+            },
             "example": "BTC"
           },
-          "example": "BTC"
-        },
-        {
-          "in": "query",
-          "name": "payment_method",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The payment method ",
+          {
+            "in": "query",
+            "name": "payment_method",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The payment method ",
+              "example": "credit_debit_card"
+            },
             "example": "credit_debit_card"
           },
-          "example": "credit_debit_card"
-        },
-        {
-          "in": "query",
-          "name": "network",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The network",
+          {
+            "in": "query",
+            "name": "network",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The network",
+              "example": "mainnet"
+            },
             "example": "mainnet"
           },
-          "example": "mainnet"
-        },
-        {
-          "in": "query",
-          "name": "amount",
-          "required": true,
-          "schema": {
-            "type": "number",
-            "description": "Amount",
+          {
+            "in": "query",
+            "name": "amount",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "description": "Amount",
+              "example": 900
+            },
             "example": 900
           },
-          "example": 900
-        },
-        {
-          "in": "query",
-          "name": "type",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The type of ramp operation ",
-            "example": "BUY",
-            "enum": [
-              "BUY",
-              "SELL"
-            ]
-          },
-          "example": "BUY"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Successful quotation response",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "msg": {
-                    "type": "string",
-                    "example": "Success"
-                  },
-                  "data": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "provider": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string",
-                              "example": "Transak"
-                            },
-                            "identifier": {
-                              "type": "string",
-                              "example": "transak"
-                            },
-                            "icon": {
-                              "type": "string",
-                              "example": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/transak.svg"
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The type of ramp operation ",
+              "example": "BUY",
+              "enum": [
+                "BUY",
+                "SELL"
+              ]
+            },
+            "example": "BUY"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful quotation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "provider": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "Transak"
+                              },
+                              "identifier": {
+                                "type": "string",
+                                "example": "transak"
+                              },
+                              "icon": {
+                                "type": "string",
+                                "example": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/transak.svg"
+                              }
                             }
+                          },
+                          "exchange_rate": {
+                            "type": "number",
+                            "example": 2124319.04
+                          },
+                          "is_best": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "crypto_amount": {
+                            "type": "number",
+                            "example": 0.0004
+                          },
+                          "fiat_amount": {
+                            "type": "number",
+                            "example": 900
+                          },
+                          "quote_amount": {
+                            "type": "number",
+                            "example": 0.0004
+                          },
+                          "percentage_diff": {
+                            "type": "number",
+                            "example": 3.14
                           }
-                        },
-                        "exchange_rate": {
-                          "type": "number",
-                          "example": 2124319.04
-                        },
-                        "is_best": {
-                          "type": "boolean",
-                          "example": true
-                        },
-                        "crypto_amount": {
-                          "type": "number",
-                          "example": 0.0004
-                        },
-                        "fiat_amount": {
-                          "type": "number",
-                          "example": 900
-                        },
-                        "quote_amount": {
-                          "type": "number",
-                          "example": 0.0004
-                        },
-                        "percentage_diff": {
-                          "type": "number",
-                          "example": 3.14
                         }
                       }
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 200
                     }
-                  },
-                  "success": {
-                    "type": "boolean",
-                    "example": true
-                  },
-                  "code": {
-                    "type": "integer",
-                    "example": 200
                   }
                 }
               }
@@ -1259,8 +1163,104 @@
           }
         }
       }
+    },
+    "/api/v1/defaults": {
+      "get": {
+        "summary": "",
+        "operationId": "getApiV1Defaults",
+        "description": "",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-ORKI-API-KEY",
+            "description": "",
+            "example": "string required The API key for authentication.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": [
+          "Quotes API"
+        ]
+      }
+    },
+    "/api/v1/partner/quotes/selected": {
+      "patch": {
+        "summary": "",
+        "operationId": "patchApiV1MerchantQuotesSelected",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "msg": "Success",
+                    "data": null,
+                    "success": true,
+                    "code": 200
+                  },
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quotes API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "description": "",
+                    "example": "coinify",
+                    "nullable": false
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "description": "",
+                    "example": "ad3f2853-decc-4e6f-a565-917d7d723e5b",
+                    "nullable": false
+                  }
+                },
+                "required": [
+                  "provider",
+                  "request_id"
+                ]
+              }
+            }
+          }
+        }
+      }
     }
-  }
   },
   "webhooks": {
     "/plant/webhook": {

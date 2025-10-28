@@ -1,6 +1,324 @@
 ---
-title: 'Intro'
-description: 'Description of your new file.'
+
+title: 'API Integration'
+description: 'Build your own crypto onramp experience by integrating directly with our REST API.'
 icon: 'footprints'
+-----------
+
+<Info>
+Requirements: API Key  
+</Info>
+
+## API Integration
+
+The **API Integration** method provides complete control over your ramp flow.
+Instead of embedding our hosted widget, your server communicates directly with our endpoints which is perfect for building a fully customized checkout experience.
+
 ---
 
+### Integration Flow:
+
+1. Fetch available assets (fiat, crypto, and payment methods).
+2. Use those to fetch real-time quotes.
+3. Create a transaction using preferred assets.
+4. Redirect users to the checkout URL.
+5. Handle transaction updates through webhooks or via long polling our transaction endpoints.
+
+---
+
+## 1. Get Supported Crypto Currencies
+
+**Endpoint:**
+`GET /crypto-currencies`
+
+**Description:**
+Returns a list of all supported cryptocurrencies and their networks.
+
+**Response Example:**
+
+```json
+{
+  "msg": "Success",
+  "data": [
+    {
+        "code": "eth",
+        "network": "ethereum",
+        "name": "Ethereum",
+        "crypto_icon": "https://asset-url.com"
+    },
+    {
+        "code": "btc",
+        "network": "mainnet",
+        "name": "Bitcoin",
+        "crypto_icon": "https://asset-url.com"
+    }
+  ],
+  "success": true,
+  "code": 200
+}
+```
+
+---
+
+## 2. Get Supported Fiat Currencies
+
+**Endpoint:**
+`GET /fiat-currencies`
+
+**Description:**
+Lists available fiat currencies for transactions.
+
+**Response Example:**
+
+```json
+{
+  "msg": "Success",
+  "data": [
+     {
+        "code": "EUR",
+        "name": "Euro",
+        "logoSymbol": "EU",
+        "fiatIcon": "<svg>…</svg>",
+        "minAmount": 1
+    },
+    {
+        "code": "GBP",
+        "name": "British pound",
+        "logoSymbol": "GB",
+        "fiatIcon": "<svg>…</svg>",
+        "minAmount": 8
+    }
+  ],
+  "success": true,
+  "code": 200
+}
+```
+
+---
+
+## 3. Get Payment Methods
+
+**Endpoint:**
+`GET /payment-methods`
+
+**Description:**
+Returns all supported payment methods for buying or selling crypto.
+
+**Response Example:**
+
+```json
+{
+  "msg": "Success",
+  "data": [
+    {
+        "orki_id": "sepa_bank_transfer",
+        "logo": "https://d31sk3i6y53c7h.cloudfront.net/assets/payment-methods/sepa_instant.svg",
+        "name": "SEPA Bank Transfer",
+        "tagline": "European Bank Transfers"
+    },
+    {
+        "orki_id": "credit_debit_card",
+        "logo": "https://d31sk3i6y53c7h.cloudfront.net/assets/payment-methods/card.svg",
+        "name": "Card Payment",
+        "tagline": "Visa, MasterCard, etc."
+    }
+  ],
+  "success": true,
+  "code": 200
+}
+```
+
+---
+
+## 4. Get Quotes
+
+**Endpoint:**
+`GET /quotes`
+
+**Description:**
+Fetches exchange rate quotes from all supported providers.
+
+**Required Query Parameters:**
+
+| Parameter         | Type   | Example               | Description                         |
+| ----------------- | ------ | --------------------- | ----------------------------------- |
+| `fiat_currency`   | string | `"USD"`               | The fiat currency to use.           |
+| `crypto_currency` | string | `"BTC"`               | The crypto currency to buy/sell.    |
+| `payment_method`  | string | `"credit_debit_card"` | Chosen payment method.              |
+| `network`         | string | `"mainnet"`           | Blockchain network for crypto.      |
+| `amount`          | number | `900`                 | Fiat amount for the transaction.    |
+| `type`            | string | `"BUY"`               | Transaction type — `BUY` or `SELL`. |
+
+**Example Request:**
+
+```bash
+curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency=BTC&payment_method=credit_debit_card&network=mainnet&amount=900&type=BUY" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+**Example Response:**
+
+```json
+{
+  "msg": "Success",
+  "data": [
+    {
+      "provider": {
+        "name": "Moon Pay",
+        "identifier": "moonpay",
+        "icon": "https://.../moonpay.svg"
+      },
+      "exchange_rate": 2256201.94,
+      "is_best": true,
+      "crypto_amount": 0.0004,
+      "fiat_amount": 900,
+      "quote_amount": 0.0004,
+      "percentage_diff": 0
+    },
+    {
+      "provider": {
+        "name": "Transak",
+        "identifier": "transak",
+        "icon": "https://.../transak.svg"
+      },
+      "exchange_rate": 2124319.04,
+      "is_best": false,
+      "crypto_amount": 0.00038746,
+      "fiat_amount": 900,
+      "quote_amount": 0.00038746,
+      "percentage_diff": 3.14
+    }
+  ],
+  "success": true,
+  "code": 200
+}
+```
+
+---
+
+## 5. Create Transaction
+
+**Endpoint:**
+`POST /transactions`
+
+**Description:**
+Creates a new transaction and returns a checkout URL for the user to complete payment.
+
+**Required JSON Body:**
+
+| Parameter         | Type   | Example               | Description                         |
+| ----------------- | ------ | --------------------- | ----------------------------------- |
+| `fiat_currency`   | string | `"USD"`               | Fiat currency code.                 |
+| `crypto_currency` | string | `"BTC"`               | Crypto currency code.               |
+| `payment_method`  | string | `"credit_debit_card"` | Payment method identifier.          |
+| `network`         | string | `"mainnet"`           | Crypto network.                     |
+| `amount`          | number | `900`                 | Fiat amount.                        |
+| `type`            | string | `"BUY"`               | Transaction type (`BUY` or `SELL`). |
+| `wallet_address`  | string | `"bc1qxyz..."`        | Recipient’s crypto wallet address.  |
+
+**Example Request:**
+
+```bash
+curl -X POST "https://url/api/v1/partner/transactions" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fiat_currency": "USD",
+    "crypto_currency": "BTC",
+    "payment_method": "credit_debit_card",
+    "network": "mainnet",
+    "amount": 900,
+    "type": "BUY",
+    "wallet_address": "bc1qxyz..."
+  }'
+```
+
+**Example Response:**
+
+```json
+{
+  "msg": "Transaction created successfully",
+  "data": {
+    "request_id": "22474420-f94b-44b0-883f-5c42e4c735cb",
+    "quotes": [
+    {
+        "provider": {
+        "name": "Guardarian",
+        "identifier": "guardarian",
+        "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
+        },
+        "exchange_rate": 93023.26,
+        "is_best": true,
+        "fiat_amount": 350,
+        "crypto_amount": 0.0037606,
+        "quote_amount": 0.0037606,
+        "link": "buy-link"
+    }
+    ]
+},
+  "success": true,
+  "code": 201
+}
+```
+
+---
+
+## 6. Handle Webhooks
+
+**Description:**
+Receive updates for transaction status changes.
+
+**Sample Payload:**
+
+```json
+{
+  "meta": {
+    "version": "1.0",
+    "server_time": 1735303290,
+    "event": "transaction.success"
+  },
+  "data": {
+    "id": "12345",
+    "provider_transaction_id": "abc-789",
+    "type": "buy",
+    "sender_address": "0x123...",
+    "recipient_address": "0x456...",
+    "exchange_rate": "1.05",
+    "transaction_hash": "0xdeadbeef...",
+    "provider_fee": "2.50",
+    "orki_fee": "0.50",
+    "network_fee": "0.20",
+    "fiat_amount": "100.00",
+    "crypto_amount": "0.0023",
+    "fiat_currency": "USD",
+    "crypto_currency": "ETH",
+    "network": "ethereum",
+    "transaction_method": "card",
+    "status": "completed",
+    "provider": "stripe",
+    "created_at": "2025-08-26T10:00:00Z"
+  }
+}
+```
+
+**Events:**
+
+* `transaction.pending`
+* `transaction.success`
+* `transaction.failed`
+
+---
+
+✅ **When to Use**
+
+* You want full control of UX and transaction logic.
+* You’re integrating crypto buy/sell within your product flow.
+* You need flexibility in pricing, routing, or KYC handling.
+
+---
+
+🚀 **Next Steps**
+
+* Obtain your API key from the Partner Dashboard.
+* Review the [OpenAPI Reference](/api-reference/assets/crypto) for detailed request/response models.
+* Set up [Webhooks](/webhooks/webhooks) to monitor transaction lifecycle.
