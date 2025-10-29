@@ -1,4 +1,7 @@
 ---
-title: 'Create'
+title: 'Create Transaction'
 openapi: 'POST /api/v1/partner/transactions'
+description: 'Use this endpoint to initiate a new transaction. The response includes a hosted payment link that the user can follow to complete the transaction.
+
+You can track the transaction status via webhooks or by polling the `GET /api/v1/partner/transactions/{transaction_id}` endpoint.'
 ---
