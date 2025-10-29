@@ -1,19 +1,7 @@
 ---
-
-title: 'API Integration'
-description: 'Build your own crypto onramp experience by integrating directly with our REST API.'
-icon: 'footprints'
------------
-
-<Info>
-Requirements: API Key  
-</Info>
-
-## API Integration
-
-The **API Integration** method provides complete control over your ramp flow.
-Instead of embedding our hosted widget, your server communicates directly with our endpoints which is perfect for building a fully customized checkout experience.
-
+title: "API Integration"
+description: "Build your own crypto onramp experience by integrating directly with our REST API."
+icon: "footprints"
 ---
 
 ### Integration Flow:
@@ -28,11 +16,9 @@ Instead of embedding our hosted widget, your server communicates directly with o
 
 ## 1. Get Supported Crypto Currencies
 
-**Endpoint:**
-`GET /crypto-currencies`
+**Endpoint:** `GET /crypto-currencies`
 
-**Description:**
-Returns a list of all supported cryptocurrencies and their networks.
+**Description:** Returns a list of all supported cryptocurrencies and their networks.
 
 **Response Example:**
 
@@ -62,11 +48,9 @@ Returns a list of all supported cryptocurrencies and their networks.
 
 ## 2. Get Supported Fiat Currencies
 
-**Endpoint:**
-`GET /fiat-currencies`
+**Endpoint:** `GET /fiat-currencies`
 
-**Description:**
-Lists available fiat currencies for transactions.
+**Description:** Lists our supported fiat currencies for transactions.
 
 **Response Example:**
 
@@ -98,11 +82,9 @@ Lists available fiat currencies for transactions.
 
 ## 3. Get Payment Methods
 
-**Endpoint:**
-`GET /payment-methods`
+**Endpoint:** `GET /payment-methods`
 
-**Description:**
-Returns all supported payment methods for buying or selling crypto.
+**Description:** Returns all supported payment methods for buying or selling crypto.
 
 **Response Example:**
 
@@ -132,11 +114,9 @@ Returns all supported payment methods for buying or selling crypto.
 
 ## 4. Get Quotes
 
-**Endpoint:**
-`GET /quotes`
+**Endpoint:** `GET /quotes`
 
-**Description:**
-Fetches exchange rate quotes from all supported providers.
+**Description:** Fetches exchange rate quotes from all supported providers.
 
 **Required Query Parameters:**
 
@@ -198,11 +178,9 @@ curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency
 
 ## 5. Create Transaction
 
-**Endpoint:**
-`POST /transactions`
+**Endpoint:** `POST /transactions`
 
-**Description:**
-Creates a new transaction and returns a checkout URL for the user to complete payment.
+**Description:** Creates a new transaction and returns a checkout URL for the user to complete payment.
 
 **Required JSON Body:**
 
@@ -265,8 +243,7 @@ curl -X POST "https://url/api/v1/partner/transactions" \
 
 ## 6. Handle Webhooks
 
-**Description:**
-Receive updates for transaction status changes.
+**Description:** Receive updates for transaction status changes.
 
 **Sample Payload:**
 
@@ -303,22 +280,22 @@ Receive updates for transaction status changes.
 
 **Events:**
 
-* `transaction.pending`
-* `transaction.success`
-* `transaction.failed`
+- `transaction.pending`
+- `transaction.success`
+- `transaction.failed`
 
 ---
 
 ✅ **When to Use**
 
-* You want full control of UX and transaction logic.
-* You’re integrating crypto buy/sell within your product flow.
-* You need flexibility in pricing, routing, or KYC handling.
+- You want full control of UX and transaction logic.
+- You’re integrating crypto buy/sell within your product flow.
+- You need flexibility in pricing, routing, or KYC handling.
 
 ---
 
 🚀 **Next Steps**
 
-* Obtain your API key from the Partner Dashboard.
-* Review the [OpenAPI Reference](/api-reference/assets/crypto) for detailed request/response models.
-* Set up [Webhooks](/webhooks/webhooks) to monitor transaction lifecycle.
+- Obtain your API key from the Partner Dashboard.
+- Review the [OpenAPI Reference](/api-reference/assets/crypto) for detailed request/response models.
+- Set up [Webhooks](/webhooks/webhooks) to monitor transaction lifecycle.
