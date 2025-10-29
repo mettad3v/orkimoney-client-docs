@@ -518,7 +518,15 @@
                   },
                   "provider": {
                     "type": "string",
-                    "example": "transak"
+                    "example": "guardarian"
+                  },
+                  "redirect_url": {
+                    "type": "string",
+                    "example": "https://website.com/success"
+                  },
+                   "partner_context": {
+                    "type": "string",
+                    "example": "abcd"
                   },
                   "type": {
                     "type": "string",
@@ -542,7 +550,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "request_id": { "type": "string", "example": "22474420-f94b-44b0-883f-5c42e4c735cb" },
+                        "transaction_id": { "type": "string", "example": "01k8qrw1j0f2mvd99x33ep160s" },
                         "quotes": {
                           "type": "array",
                           "items": {
@@ -573,7 +581,7 @@
                   "example": {
                     "msg": "success",
                     "data": {
-                      "request_id": "22474420-f94b-44b0-883f-5c42e4c735cb",
+                      "transaction_id": "01k8qrw1j0f2mvd99x33ep160s",
                       "quotes": [
                         {
                           "provider": {

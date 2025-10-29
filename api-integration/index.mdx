@@ -192,7 +192,9 @@ curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency
 | `network`         | string | `"mainnet"`           | Crypto network.                     |
 | `amount`          | number | `900`                 | Fiat amount.                        |
 | `type`            | string | `"BUY"`               | Transaction type (`BUY` or `SELL`). |
-| `wallet_address`  | string | `"bc1qxyz..."`        | Recipient’s crypto wallet address.  |
+| `provider`        | string | `"guardarian"`        | The provider to use for this transaction.  |
+| `partner_context` | string | `"abcd"`              | A unique string to identify transactions (useful for webhook correlation). |
+| `redirect_url`    | string | `https://website.com/success`| URL to redirect to after a successful transaction.  |
 
 **Example Request:**
 
@@ -207,7 +209,9 @@ curl -X POST "https://url/api/v1/partner/transactions" \
     "network": "mainnet",
     "amount": 900,
     "type": "BUY",
-    "wallet_address": "bc1qxyz..."
+    "provider": "guardarian",
+    "partner_context": "abcd",
+    "redirect_url": "https://website.com/success
   }'
 ```
 
