@@ -561,28 +561,20 @@
                       "type": "object",
                       "properties": {
                         "transaction_id": { "type": "string", "example": "01k8qrw1j0f2mvd99x33ep160s" },
-                        "quotes": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "provider": {
-                                "type": "object",
-                                "properties": {
-                                  "name": { "type": "string", "example": "Guardarian" },
-                                  "identifier": { "type": "string", "example": "guardarian" },
-                                  "icon": { "type": "string", "example": "https://.../guardarian.svg" }
-                                }
-                              },
-                              "exchange_rate": { "type": "number", "example": 93023.26 },
-                              "is_best": { "type": "boolean", "example": true },
-                              "fiat_amount": { "type": "number", "example": 350 },
-                              "crypto_amount": { "type": "number", "example": 0.0037606 },
-                              "quote_amount": { "type": "number", "example": 0.0037606 },
-                              "link": { "type": "string", "nullable": true, "example": "buy-link" }
-                            }
+                        "provider": {
+                          "type": "object",
+                          "properties": {
+                            "name": { "type": "string", "example": "Guardarian" },
+                            "identifier": { "type": "string", "example": "guardarian" },
+                            "icon": { "type": "string", "example": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg" }
                           }
-                        }
+                        },
+                        "exchange_rate": { "type": "number", "example": 93023.26 },
+                        "is_best": { "type": "boolean", "example": true },
+                        "fiat_amount": { "type": "number", "example": 350 },
+                        "crypto_amount": { "type": "number", "example": 0.0037606 },
+                        "quote_amount": { "type": "number", "example": 0.0037606 },
+                        "link": { "type": "string", "nullable": true, "example": "buy-link" }
                       }
                     },
                     "success": { "type": "boolean", "example": true },
@@ -592,21 +584,17 @@
                     "msg": "success",
                     "data": {
                       "transaction_id": "01k8qrw1j0f2mvd99x33ep160s",
-                      "quotes": [
-                        {
-                          "provider": {
-                            "name": "Guardarian",
-                            "identifier": "guardarian",
-                            "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
-                          },
-                          "exchange_rate": 93023.26,
-                          "is_best": true,
-                          "fiat_amount": 350,
-                          "crypto_amount": 0.0037606,
-                          "quote_amount": 0.0037606,
-                          "link": "buy-link"
-                        }
-                      ]
+                      "provider": {
+                        "name": "Guardarian",
+                        "identifier": "guardarian",
+                        "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
+                      },
+                      "exchange_rate": 93023.26,
+                      "is_best": true,
+                      "fiat_amount": 350,
+                      "crypto_amount": 0.0037606,
+                      "quote_amount": 0.0037606,
+                      "link": "buy-link"
                     },
                     "success": true,
                     "code": 200
