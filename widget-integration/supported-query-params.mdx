@@ -4,22 +4,17 @@ description: 'Supported onramp and offramp parameters.'
 icon: 'ampersand'
 ---
 
-<Warning>
-`apiKey` is required for both onramp and offramp
-</Warning>
 
 
-| Property       | Product Type  | Description                                                                             | Type   |   |
-|----------------|---------------|-----------------------------------------------------------------------------------------|--------|---|
-| apiKey         | BUY,SELL      | The Partner API Key                                                                     | string |   |
-| mode           | BUY,SELL,SWAP | The product modes to enable on the widget                                               | string |   |
-| fiat           | BUY,SELL      | The fiatcurrency e.g EUR,USD,INR                                                        | string |   |
-| cryptocurrency | BUY,SELL      | The cryptocurrency e.g BTC,ETH                                                          | string |   |
-| network        | BUY,SELL      | The cryptocurrency network e.g bitcoin, ethereum                                        | string |   |
-| paymentMethod  | BUY,SELL      | The payment method e.g credit_debit_card, IMPS                                          | string |   |
-| fiatAmount     | BUY,SELL      |                                                                                         | number |   |
-| cryptoAmount   | BUY,SELL      |                                                                                         | number |   |
-| walletAddress  | BUY           |                                                                                         | string |   |
-| redirectUrl    | BUY,SELL,SWAP |                                                                                         | string |   |
-| sessionId      | BUY,SELL      | Used in tracking the same session across multiple devices                               | string (UUID) |   |
-| partnerContext | BUY,SELL      | A custom ID that can be passed into the request and also will be available in webhooks  | string |   |
+| Property       | Product Type  | Description                                                                             | Type   | Required   |
+|----------------|---------------|-----------------------------------------------------------------------------------------|--------|-----------|
+| apiKey         | BUY,SELL      | The Partner API Key                                                                     | string | Yes       |
+| mode           | BUY,SELL,SWAP | The product modes to enable on the widget                                               | string | Yes       |
+| fiat           | BUY,SELL      | The fiatcurrency e.g EUR,USD,INR                                                        | string | Yes       |
+| crypto         | BUY,SELL      | The cryptocurrency e.g BTC,ETH                                                          | string | Yes       |
+| network        | BUY,SELL      | The cryptocurrency network e.g bitcoin, ethereum                                        | string | Yes       |
+| paymentMethod  | BUY,SELL      | The payment method e.g credit_debit_card, IMPS                                          | string | Yes       |
+| amount         | BUY,SELL      |                                                                                         | number | Yes       |
+| redirectUrl    | BUY,SELL,SWAP |                                                                                         | string | No        |
+| sessionId      | BUY,SELL      | Used in tracking the same session across multiple devices                               | string | Yes       |
+| partnerContext | BUY,SELL      | A custom ID that can be passed into the request and also will be available in webhooks  | string | No        |
