@@ -17,4 +17,8 @@ icon: 'ampersand'
 | amount         | BUY,SELL      |                                                                                         | number | Yes       |
 | redirectUrl    | BUY,SELL,SWAP |                                                                                         | string | No        |
 | sessionId      | BUY,SELL      | Used in tracking the same session across multiple devices                               | string | Yes       |
-| partnerContext | BUY,SELL      | A custom ID that can be passed into the request and also will be available in webhooks  | string | No        |
+| partnerContext | BUY,SELL      | A custom reconciliation ID returned as `data.partner_context` in webhooks for client-owned widget transactions | string | No        |
+
+<Note>
+Orki does not configure a partner-level destination wallet in the Terminal. The destination is set per transaction and is normally entered or confirmed during the selected provider's checkout. Binance BUY requires a wallet address before its quote can be selected.
+</Note>

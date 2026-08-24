@@ -10,7 +10,7 @@ icon: 'webhook'
   - Obtain your Webhook Secret Key
 </Info>
 
-Webhooks allow your application to receive **real-time notifications** from our system whenever specific events happen (e.g. a transaction is started, completed or failed).  
+Webhooks allow your application to receive **real-time notifications** from our system when a transaction succeeds or fails.
 Instead of polling our API, you can set up a webhook endpoint and we’ll push updates to you.
 
 ---
@@ -19,7 +19,7 @@ Instead of polling our API, you can set up a webhook endpoint and we’ll push u
 
 1. **Create an HTTPS endpoint** on your server that can accept `POST` requests with a JSON payload.  
 2. **Register your endpoint** in the dashboard under **API management → Webhooks**.  
-3. **Select events** you want to subscribe to (e.g. `transaction.pending`, `transaction.success`, `transaction.failed`).  
+3. **Select events** you want to subscribe to (`transaction.success` and/or `transaction.failed`).
 4. **Save** — events will now trigger requests to your webhook.
 
 ---

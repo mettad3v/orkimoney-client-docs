@@ -7,10 +7,25 @@ icon: "footprints"
 ### Integration Flow:
 
 1. Fetch available assets (fiat, crypto, and payment methods).
-2. Use those to fetch real-time quotes.
-3. Create a transaction using preferred assets.
+2. Use those to fetch real-time quotes. Include the destination wallet when requesting a Binance BUY quote.
+3. Create a transaction using the selected provider. Binance BUY transactions require the destination wallet again at this step.
 4. Redirect users to the checkout URL.
 5. Handle transaction updates through webhooks or via long polling our transaction endpoints.
+
+<Note>
+Authenticate API requests with your partner API key in the `X-ORKI-API-KEY` header.
+</Note>
+
+## Destination wallets for BUY transactions
+
+Orki does not configure a partner-level destination wallet for ramp purchases. The destination wallet and network are determined separately for each transaction.
+
+- For most providers, the buyer enters or confirms the destination wallet and network during the provider's hosted or embedded checkout.
+- You may supply `wallet_address` with quote and transaction requests. Providers that support a prefilled wallet receive it as part of their checkout configuration.
+- For Binance BUY transactions, `wallet_address` is required during both quote discovery and transaction creation. Without it, the Binance quote is marked unsupported and cannot be selected.
+- The selected ramp provider sends the purchased crypto directly to the transaction's specified or confirmed wallet. Orki does not custody or redirect it.
+
+Creating an Orki transaction only creates a tracking record and checkout link. No purchase or crypto delivery occurs until the buyer completes the provider's payment and KYC flow.
 
 ---
 
@@ -129,11 +144,17 @@ icon: "footprints"
 | `amount`          | number | `900`                 | Fiat amount for the transaction.    |
 | `type`            | string | `"BUY"`               | Transaction type — `BUY` or `SELL`. |
 
+**Optional Query Parameters:**
+
+| Parameter        | Type   | Example                       | Description |
+| ---------------- | ------ | ----------------------------- | ----------- |
+| `wallet_address` | string | `"YOUR_BTC_WALLET_ADDRESS"` | Destination wallet for a BUY transaction. Required for Binance BUY quote eligibility; optional for other providers. |
+
 **Example Request:**
 
 ```bash
-curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency=BTC&payment_method=credit_debit_card&network=mainnet&amount=900&type=BUY" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency=BTC&payment_method=credit_debit_card&network=mainnet&amount=900&type=BUY&wallet_address=YOUR_BTC_WALLET_ADDRESS" \
+  -H "X-ORKI-API-KEY: YOUR_API_KEY"
 ```
 
 **Example Response:**
@@ -182,25 +203,26 @@ curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency
 
 **Description:** Creates a new transaction and returns a checkout URL for the user to complete payment.
 
-**Required JSON Body:**
+**JSON Body:**
 
-| Parameter         | Type   | Example               | Description                         |
-| ----------------- | ------ | --------------------- | ----------------------------------- |
-| `fiat_currency`   | string | `"USD"`               | Fiat currency code.                 |
-| `crypto_currency` | string | `"BTC"`               | Crypto currency code.               |
-| `payment_method`  | string | `"credit_debit_card"` | Payment method identifier.          |
-| `network`         | string | `"mainnet"`           | Crypto network.                     |
-| `amount`          | number | `900`                 | Fiat amount.                        |
-| `type`            | string | `"BUY"`               | Transaction type (`BUY` or `SELL`). |
-| `provider`        | string | `"guardarian"`        | The provider to use for this transaction.  |
-| `partner_context` | string | `"abcd"`              | A unique string to identify transactions (useful for webhook correlation). |
-| `redirect_url`    | string | `https://website.com/success`| URL to redirect to after a successful transaction.  |
+| Parameter         | Type   | Required | Example                       | Description |
+| ----------------- | ------ | -------- | ----------------------------- | ----------- |
+| `fiat_currency`   | string | Yes      | `"USD"`                       | Fiat currency code. |
+| `crypto_currency` | string | Yes      | `"BTC"`                       | Crypto currency code. |
+| `payment_method`  | string | Yes      | `"credit_debit_card"`         | Payment method identifier. |
+| `network`         | string | Yes      | `"mainnet"`                   | Crypto network. |
+| `amount`          | number | Yes      | `900`                         | Fiat amount. |
+| `type`            | string | Yes      | `"BUY"`                       | Transaction type (`BUY` or `SELL`). |
+| `provider`        | string | Yes      | `"guardarian"`                | Provider selected from the quote response. |
+| `wallet_address`  | string | Binance BUY only | `"YOUR_BTC_WALLET_ADDRESS"` | Per-transaction destination wallet. Optional for other providers. |
+| `partner_context` | string | No       | `"abcd"`                      | Your reconciliation identifier, returned in transaction webhooks. |
+| `redirect_url`    | string | No       | `"https://website.com/success"` | URL used after the provider checkout. |
 
 **Example Request:**
 
 ```bash
 curl -X POST "https://url/api/v1/partner/transactions" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "X-ORKI-API-KEY: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "fiat_currency": "USD",
@@ -210,8 +232,9 @@ curl -X POST "https://url/api/v1/partner/transactions" \
     "amount": 900,
     "type": "BUY",
     "provider": "guardarian",
+    "wallet_address": "YOUR_BTC_WALLET_ADDRESS",
     "partner_context": "abcd",
-    "redirect_url": "https://website.com/success
+    "redirect_url": "https://website.com/success"
   }'
 ```
 
@@ -261,6 +284,7 @@ curl -X POST "https://url/api/v1/partner/transactions" \
   "data": {
     "id": "12345",
     "provider_transaction_id": "abc-789",
+    "partner_context": "abcd",
     "type": "buy",
     "sender_address": "0x123...",
     "recipient_address": "0x456...",
@@ -275,7 +299,7 @@ curl -X POST "https://url/api/v1/partner/transactions" \
     "crypto_currency": "ETH",
     "network": "ethereum",
     "transaction_method": "card",
-    "status": "completed",
+    "status": "success",
     "provider": "stripe",
     "created_at": "2025-08-26T10:00:00Z"
   }
@@ -284,7 +308,6 @@ curl -X POST "https://url/api/v1/partner/transactions" \
 
 **Events:**
 
-- `transaction.pending`
 - `transaction.success`
 - `transaction.failed`
 

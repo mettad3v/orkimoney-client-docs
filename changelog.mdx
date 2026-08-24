@@ -1,0 +1,32 @@
+---
+title: "Changelog"
+description: "Partner API, widget, webhook, and provider updates."
+icon: "list"
+rss: true
+---
+
+<Update
+  label="August 24, 2026"
+  description="Partner integration reliability and documentation updates"
+  tags={["API", "Webhooks", "Providers", "Documentation"]}
+>
+
+## Partner API
+
+- Standardized authentication guidance and examples on the [`X-ORKI-API-KEY` header](/api-authentication/index). The partner API does not use the `Authorization: Bearer` scheme.
+
+## Quotes and providers
+
+- Clarified that Orki does not configure a partner-level destination wallet for ramp purchases. The destination is set per transaction and the selected provider delivers the purchased crypto directly to it.
+- Binance BUY quotes require `wallet_address`. When it is omitted, Binance is returned as unsupported and cannot be selected for transaction creation. The address is also required when creating the Binance BUY transaction. This does not change SELL quotes or BUY quotes from other providers.
+
+## Webhooks
+
+- Added [`partner_context` to the webhook data reference](/webhooks/events). Client-owned API and widget transactions return the supplied value as `data.partner_context`, or `null` when it was omitted.
+- Aligned webhook event metadata with the documented `transaction.success` and `transaction.failed` names. Successful payloads use `data.status: "success"`.
+
+## Environment guidance
+
+- Clarified that Orki does not provide a separate public sandbox host. Integrations use the documented API host, and live validation should begin with small-value transactions.
+
+</Update>

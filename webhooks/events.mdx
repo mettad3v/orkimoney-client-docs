@@ -16,7 +16,6 @@ We send webhook events whenever important activity happens (for example: transac
 
 | Event                 | When it's sent                                                                                    |
 | --------------------- | ------------------------------------------------------------------------------------------------- |
-| `transaction.pending` | A transaction has been created and is awaiting confirmation (payment or blockchain confirmation). |
 | `transaction.success` | The transaction was successfully processed and confirmed.                                         |
 | `transaction.failed`  | The transaction could not be completed (payment declined, blockchain error, etc.).                |
 
@@ -34,6 +33,7 @@ We send webhook events whenever important activity happens (for example: transac
   "data": {
     "id": "12345",
     "provider_transaction_id": "abc-789",
+    "partner_context": "order-12345",
     "type": "buy",
     "sender_address": "0x123...",
     "recipient_address": "0x456...",
@@ -48,7 +48,7 @@ We send webhook events whenever important activity happens (for example: transac
     "crypto_currency": "ETH",
     "network": "ethereum",
     "transaction_method": "card",
-    "status": "completed",
+    "status": "success",
     "provider": "stripe",
     "created_at": "2025-08-26T10:00:00Z"
   }
@@ -61,7 +61,7 @@ We send webhook events whenever important activity happens (for example: transac
 | ------------- | ------: | -------------------------------------------------------------------------------- |
 | `version`     |  string | Webhook format version (currently `1.0`).                                        |
 | `server_time` | integer | Unix timestamp when event was created.                                           |
-| `event`       |  enum | Event type (`transaction.pending`, `transaction.success`, `transaction.failed`). |
+| `event`       |  enum | Event type (`transaction.success`, `transaction.failed`).                         |
 
 ## Data object reference
 
@@ -69,6 +69,7 @@ We send webhook events whenever important activity happens (for example: transac
 | ------------------------- | -----: | ---------------------------------------------------- |
 | `id`                      | string | Internal event ID.                                   |
 | `provider_transaction_id` | string | ID from the payment provider.                        |
+| `partner_context`         | string \| null | Partner-supplied reconciliation value, or `null` when omitted. |
 | `type`                    | string | Transaction type (`buy`, `sell`).                    |
 | `sender_address`          | string | Blockchain address of sender.                        |
 | `recipient_address`       | string | Blockchain address of recipient.                     |
@@ -87,11 +88,6 @@ We send webhook events whenever important activity happens (for example: transac
 | `provider`                | string | Payment provider name.                               |
 | `created_at`              | string | ISO timestamp of creation.                           |
 
-
-## Supported Events
-
-| Event                 | When it's sent                                                                                    |
-| --------------------- | ------------------------------------------------------------------------------------------------- |
-| `transaction.pending` | A transaction has been created and is awaiting confirmation (payment or blockchain confirmation). |
-| `transaction.success` | The transaction was successfully processed and confirmed.                                         |
-| `transaction.failed`  | The transaction could not be completed (payment declined, blockchain error, etc.).                |
+<Note>
+`partner_context` is included in the `data` object for transaction webhooks. Store your own transaction or order identifier in this field when creating the transaction; if you omit it, the webhook returns `null`.
+</Note>

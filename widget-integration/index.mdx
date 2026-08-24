@@ -13,12 +13,20 @@ Requirements: API Key
 The **Widget Integration** method is the simplest way to start accepting crypto transactions. Instead of building full API flows, you can embed our hosted widget in your app or website and configure it through URL query parameters.  
 
 ### How It Works
-- Generate a widget URL with the parameters you want (e.g., wallet address, fiat/crypto, crypto-network, transaction type).  
+- Generate a widget URL with the transaction parameters you want (for example, fiat currency, cryptocurrency, network, and transaction type).
 - Your frontend loads the widget via `<iframe>` or a redirect to our hosted widget.  
-- The widget handles all the UI, user flow, and compliance steps.  
-- Once a transaction is completed or its status changes, you receive **webhooks** on your server.  
+- The widget and selected provider handle the user flow, including destination-wallet confirmation, payment, and compliance steps.
+- For a client-owned widget, subscribed transaction updates are sent to your server through **webhooks**. Transactions created through the public widget proxy do not generate partner webhooks.
 
 This makes the widget **plug-and-play**: drop it in, configure via URL, subscribe to webhooks, and you’re done.  
+
+---
+
+### Destination wallet
+
+Orki does not configure a partner-level destination wallet in the Terminal. The destination is determined separately for each BUY transaction.
+
+For most providers, the buyer enters or confirms the wallet address and network during the provider's checkout. For Binance BUY, the widget must obtain the buyer's destination wallet before requesting the quote because Binance cannot be selected without it. The selected provider sends the purchased crypto directly to the specified or confirmed wallet; Orki does not custody or redirect it.
 
 ---
 
@@ -46,14 +54,14 @@ You may enable a combination of those modes in the widget by combining types
 https://widget.orki.io?type=buy,sell,swap
 ```
 
-In addition to the `mode` query parameter you can also pass in a lot of other [query parameters](/widget-integration/supported-query-parameters).
+In addition to the `mode` query parameter, you can pass the other supported [query parameters](/widget-integration/supported-query-params).
 
 ---
 
 ### Integration Flow
 
 1. **Generate widget URL**  
-   - Collect user-specific params (wallet, fiat/crypto, transaction type).  
+   - Select the supported configuration parameters, such as fiat currency, cryptocurrency, network, and transaction type.
    - Construct the widget URL.  
 
 2. **Embed or redirect**  
@@ -74,7 +82,8 @@ In addition to the `mode` query parameter you can also pass in a lot of other [q
    
 
 3. **Handle webhooks**  
-   - Subscribe to webhook events for transaction status updates (pending, confirmed, failed) from your terminal.  
+   - For a client-owned widget, subscribe to webhook events for transaction status updates (pending, confirmed, failed) from your Terminal.
+   - For the public widget proxy, use the transaction status shown in the widget; partner webhooks are not generated.
    - Then update your internal records accordingly.  
 
 ---

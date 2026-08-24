@@ -534,9 +534,14 @@
                     "type": "string",
                     "example": "https://website.com/success"
                   },
-                   "partner_context": {
+                  "partner_context": {
                     "type": "string",
                     "example": "abcd"
+                  },
+                  "wallet_address": {
+                    "type": "string",
+                    "description": "Per-transaction destination wallet. Required when provider is binance and type is BUY; optional for other providers.",
+                    "example": "YOUR_BTC_WALLET_ADDRESS"
                   },
                   "type": {
                     "type": "string",
@@ -1091,6 +1096,17 @@
               ]
             },
             "example": "BUY"
+          },
+          {
+            "in": "query",
+            "name": "wallet_address",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Per-transaction destination wallet. Required for Binance BUY quote eligibility; optional for other providers.",
+              "example": "YOUR_BTC_WALLET_ADDRESS"
+            },
+            "example": "YOUR_BTC_WALLET_ADDRESS"
           }
         ],
         "responses": {

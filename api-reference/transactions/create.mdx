@@ -3,5 +3,7 @@ title: 'Create Transaction'
 openapi: 'POST /api/v1/partner/transactions'
 description: 'Use this endpoint to initiate a new transaction. The response includes a hosted payment link that the user can follow to complete the transaction.
 
+The destination wallet is set per transaction, not in the Orki Terminal. `wallet_address` is required for Binance BUY transactions and optional for other providers. Creating the transaction does not purchase or deliver crypto; the buyer must complete the selected provider’s checkout.
+
 You can track the transaction status via webhooks or by polling the `GET /api/v1/partner/transactions/{transaction_id}` endpoint.'
 ---
