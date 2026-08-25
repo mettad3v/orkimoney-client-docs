@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "willow",
-  "name": "Mint Starter Kit",
+  "name": "Orki Money Documentation",
   "appearance": {
     "default": "light",
     "strict": false

@@ -1,33 +1,23 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Orki Money Partner API environments, paths, and authentication.'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+The Orki Money Partner API provides a unified interface for discovering supported assets and providers, requesting quotes, creating ramp transactions, and retrieving transaction status.
 
-## Welcome
+## Base URLs
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+| Environment | Base URL |
+| --- | --- |
+| Production | `https://api.money.orki.io` |
+| Sandbox | `https://sandbox.money.orki.io` |
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+Partner endpoints use the `/api/v1/partner` base path in both environments.
+
+<Info>
+Use TEST API keys with the sandbox base URL. Sandbox transactions are stored separately from LIVE transactions and do not initiate payment when the Orki transaction record and provider checkout link are created. The sandbox currently supports Transak staging quotes and checkout-session creation; do not assume that provider completion and webhook delivery are simulated end to end.
+</Info>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+Send your partner API key in the `X-ORKI-API-KEY` request header. See [API Authentication](/api-authentication/index) for an example.

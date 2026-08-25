@@ -6,6 +6,25 @@ rss: true
 ---
 
 <Update
+  label="August 25, 2026"
+  description="Sandbox base URL and API reference corrections"
+  tags={["API", "Sandbox", "Documentation"]}
+>
+
+## Environments and paths
+
+- Added the sandbox API base URL: `https://sandbox.money.orki.io`. Production remains available at `https://api.money.orki.io`.
+- Standardized partner API documentation on the `/api/v1/partner` base path in both environments.
+
+## API reference
+
+- Corrected the create-transaction and payment-method response examples.
+- Removed inactive partner quote-selection and separate SELL quote references. Both BUY and SELL quote discovery use `GET /api/v1/partner/quotes` with the `type` query parameter.
+
+
+</Update>
+
+<Update
   label="August 24, 2026"
   description="Partner integration reliability and documentation updates"
   tags={["API", "Webhooks", "Providers", "Documentation"]}
@@ -25,8 +44,5 @@ rss: true
 - Added [`partner_context` to the webhook data reference](/webhooks/events). Client-owned API and widget transactions return the supplied value as `data.partner_context`, or `null` when it was omitted.
 - Aligned webhook event metadata with the documented `transaction.success` and `transaction.failed` names. Successful payloads use `data.status: "success"`.
 
-## Environment guidance
-
-- Clarified that Orki does not provide a separate public sandbox host. Integrations use the documented API host, and live validation should begin with small-value transactions.
 
 </Update>

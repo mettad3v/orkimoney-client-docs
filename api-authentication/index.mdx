@@ -12,6 +12,19 @@ icon: 'key-round'
 
 Requests to our trade API endpoints require authentication via an API key.  
 
+## Base URLs
+
+| Environment | Base URL |
+| --- | --- |
+| Production | `https://api.money.orki.io` |
+| Sandbox | `https://sandbox.money.orki.io` |
+
+Partner API endpoints use the `/api/v1/partner` base path in both environments. For example, the full production URL for the fiat currencies endpoint is `https://api.money.orki.io/api/v1/partner/fiat-currencies`.
+
+<Info>
+Use LIVE API keys with the production base URL and TEST API keys with the sandbox base URL. The sandbox supports authenticated asset discovery, Transak staging quotes and checkout-session creation, and sandbox transaction creation and retrieval. Creating a sandbox transaction does not initiate a payment. Provider completion, status callbacks, and webhook delivery should be validated separately before going live.
+</Info>
+
 <Steps>
 <Step title="Create a Partner Account">
 To get started, you must first [create a partner account](/getting-started/guide) on our platform.
@@ -24,7 +37,7 @@ Navigate to API Management section and generate an API Key.
 
 <Step title="Use the API Key in requests to the trade API endpoints">
 ```bash
-curl -X POST "https://api.money.orki.io/v1/quotes/buy" \
+curl -X GET "https://api.money.orki.io/api/v1/partner/fiat-currencies" \
   -H "X-ORKI-API-KEY: your_api_key_here"
 ```
 
@@ -35,6 +48,4 @@ https://widget.money.orki.io?apiKey=your_api_key_here
 ```
 </Step>
 </Steps>
-
-
 

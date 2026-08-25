@@ -16,6 +16,19 @@ icon: "footprints"
 Authenticate API requests with your partner API key in the `X-ORKI-API-KEY` header.
 </Note>
 
+## Base URLs
+
+| Environment | Base URL |
+| --- | --- |
+| Production | `https://api.money.orki.io` |
+| Sandbox | `https://sandbox.money.orki.io` |
+
+All endpoints in this guide use the `/api/v1/partner` base path. Use the same paths with the base URL for your intended environment.
+
+<Info>
+Use TEST API keys with the sandbox base URL. The sandbox supports the partner endpoints documented in this guide, including Transak staging quotes, checkout-session creation, and sandbox transaction retrieval. Creating a sandbox transaction does not initiate payment. Provider completion, status callbacks, and webhook delivery are not simulated end to end.
+</Info>
+
 ## Destination wallets for BUY transactions
 
 Orki does not configure a partner-level destination wallet for ramp purchases. The destination wallet and network are determined separately for each transaction.
@@ -31,7 +44,7 @@ Creating an Orki transaction only creates a tracking record and checkout link. N
 
 ## 1. Get Supported Crypto Currencies
 
-**Endpoint:** `GET /crypto-currencies`
+**Endpoint:** `GET /api/v1/partner/crypto-currencies`
 
 **Description:** Returns a list of all supported cryptocurrencies and their networks.
 
@@ -63,7 +76,7 @@ Creating an Orki transaction only creates a tracking record and checkout link. N
 
 ## 2. Get Supported Fiat Currencies
 
-**Endpoint:** `GET /fiat-currencies`
+**Endpoint:** `GET /api/v1/partner/fiat-currencies`
 
 **Description:** Lists our supported fiat currencies for transactions.
 
@@ -97,29 +110,39 @@ Creating an Orki transaction only creates a tracking record and checkout link. N
 
 ## 3. Get Payment Methods
 
-**Endpoint:** `GET /payment-methods`
+**Endpoint:** `GET /api/v1/partner/payment-methods`
 
 **Description:** Returns all supported payment methods for buying or selling crypto.
+
+**Required Query Parameters:**
+
+| Parameter | Type | Example | Description |
+| --- | --- | --- | --- |
+| `fiat` | string | `"USD"` | Fiat currency used to determine available payment methods. |
+| `type` | string | `"BUY"` | Transaction type: `BUY` or `SELL`. |
 
 **Response Example:**
 
 ```json
 {
   "msg": "Success",
-  "data": [
-    {
-        "orki_id": "sepa_bank_transfer",
-        "logo": "https://d31sk3i6y53c7h.cloudfront.net/assets/payment-methods/sepa_instant.svg",
-        "name": "SEPA Bank Transfer",
-        "tagline": "European Bank Transfers"
-    },
-    {
-        "orki_id": "credit_debit_card",
-        "logo": "https://d31sk3i6y53c7h.cloudfront.net/assets/payment-methods/card.svg",
-        "name": "Card Payment",
-        "tagline": "Visa, MasterCard, etc."
-    }
-  ],
+  "data": {
+    "payment_methods": [
+      {
+          "orki_id": "sepa_bank_transfer",
+          "logo": "https://d31sk3i6y53c7h.cloudfront.net/assets/payment-methods/sepa_instant.svg",
+          "name": "SEPA Bank Transfer",
+          "tagline": "European Bank Transfers"
+      },
+      {
+          "orki_id": "credit_debit_card",
+          "logo": "https://d31sk3i6y53c7h.cloudfront.net/assets/payment-methods/card.svg",
+          "name": "Card Payment",
+          "tagline": "Visa, MasterCard, etc."
+      }
+    ],
+    "recommended": "credit_debit_card"
+  },
   "success": true,
   "code": 200
 }
@@ -129,7 +152,7 @@ Creating an Orki transaction only creates a tracking record and checkout link. N
 
 ## 4. Get Quotes
 
-**Endpoint:** `GET /quotes`
+**Endpoint:** `GET /api/v1/partner/quotes`
 
 **Description:** Fetches exchange rate quotes from all supported providers.
 
@@ -153,7 +176,7 @@ Creating an Orki transaction only creates a tracking record and checkout link. N
 **Example Request:**
 
 ```bash
-curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency=BTC&payment_method=credit_debit_card&network=mainnet&amount=900&type=BUY&wallet_address=YOUR_BTC_WALLET_ADDRESS" \
+curl -X GET "https://api.money.orki.io/api/v1/partner/quotes?fiat_currency=USD&crypto_currency=BTC&payment_method=credit_debit_card&network=mainnet&amount=900&type=BUY&wallet_address=YOUR_BTC_WALLET_ADDRESS" \
   -H "X-ORKI-API-KEY: YOUR_API_KEY"
 ```
 
@@ -199,7 +222,7 @@ curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency
 
 ## 5. Create Transaction
 
-**Endpoint:** `POST /transactions`
+**Endpoint:** `POST /api/v1/partner/transactions`
 
 **Description:** Creates a new transaction and returns a checkout URL for the user to complete payment.
 
@@ -221,7 +244,7 @@ curl -X GET "https://url/api/v1/partner/quotes?fiat_currency=USD&crypto_currency
 **Example Request:**
 
 ```bash
-curl -X POST "https://url/api/v1/partner/transactions" \
+curl -X POST "https://api.money.orki.io/api/v1/partner/transactions" \
   -H "X-ORKI-API-KEY: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -242,27 +265,23 @@ curl -X POST "https://url/api/v1/partner/transactions" \
 
 ```json
 {
-  "msg": "Transaction created successfully",
+  "msg": "Success",
   "data": {
-    "request_id": "22474420-f94b-44b0-883f-5c42e4c735cb",
-    "quotes": [
-    {
-        "provider": {
-        "name": "Guardarian",
-        "identifier": "guardarian",
-        "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
-        },
-        "exchange_rate": 93023.26,
-        "is_best": true,
-        "fiat_amount": 350,
-        "crypto_amount": 0.0037606,
-        "quote_amount": 0.0037606,
-        "link": "buy-link"
-    }
-    ]
-},
+    "transaction_id": "01k8qrw1j0f2mvd99x33ep160s",
+    "provider": {
+      "name": "Guardarian",
+      "identifier": "guardarian",
+      "icon": "https://d31sk3i6y53c7h.cloudfront.net/assets/providers/guardarian.svg"
+    },
+    "exchange_rate": 93023.26,
+    "is_best": true,
+    "fiat_amount": 350,
+    "crypto_amount": 0.0037606,
+    "quote_amount": 0.0037606,
+    "link": "https://provider.example/checkout"
+  },
   "success": true,
-  "code": 201
+  "code": 200
 }
 ```
 

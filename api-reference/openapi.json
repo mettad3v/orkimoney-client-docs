@@ -1,16 +1,18 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
+    "title": "Orki Money Partner API",
+    "description": "Discover supported ramp routes, request quotes, create transactions, and retrieve transaction status through the Orki Money Partner API.",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://api.money.orki.io"
+      "url": "https://api.money.orki.io",
+      "description": "Production"
+    },
+    {
+      "url": "https://sandbox.money.orki.io",
+      "description": "Sandbox"
     }
   ],
   "security": [
@@ -19,116 +21,6 @@
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/partner/transactions/{transaction_id}": {
       "get": {
         "summary": "Show Transaction by Merchant.",
@@ -169,7 +61,7 @@
                         "exchange_rate": { "type": "number", "example": 239.20 },
                         "transaction_hash": { "type": "string", "example": "random_hash_here" },
                         "provider_fee": { "type": "number", "example": 60.60 },
-                        "orki_fee": { "type": ["number", "null"], "example": null },
+                        "client_fee": { "type": ["number", "null"], "example": null },
                         "network_fee": { "type": "number", "example": 0.05 },
                         "fiat_amount": { "type": "number", "example": 400 },
                         "crypto_amount": { "type": "number", "example": 1500 },
@@ -177,6 +69,7 @@
                         "crypto_currency": { "type": "string", "example": "eth" },
                         "network": { "type": "string", "example": "ethereum" },
                         "payment_method": { "type": "string", "example": "credit_debit_card" },
+                        "partner_context": { "type": ["string", "null"], "example": "order-12345" },
                         "status": { "type": "string", "example": "success" },
                         "provider": { "type": "string", "example": "stripe" },
                         "created_at": { "type": "string", "example": "2025-05-31T22:53:51.000000Z" },
@@ -197,7 +90,7 @@
                       "exchange_rate": 239.20,
                       "transaction_hash": "random_hash_here",
                       "provider_fee": 60.60,
-                      "orki_fee": null,
+                      "client_fee": null,
                       "network_fee": 0.05,
                       "fiat_amount": 400,
                       "crypto_amount": 1500,
@@ -205,6 +98,7 @@
                       "crypto_currency": "eth",
                       "network": "ethereum",
                       "payment_method": "credit_debit_card",
+                      "partner_context": "order-12345",
                       "status": "success",
                       "provider": "stripe",
                       "created_at": "2025-05-31T22:53:51.000000Z",
@@ -274,7 +168,7 @@
                   "example": {
                     "msg": "Success",
                     "data": {
-                      "transactions": [
+                      "data": [
                         {
                           "id": "01jwm8tchegxy37f12jck7b0bx",
                           "provider_tx_id": "cos_1RUyHbQRBKAgk6f06LOvXqFU",
@@ -284,7 +178,7 @@
                           "exchange_rate": 239.20,
                           "transaction_hash": "random_hash_here",
                           "provider_fee": 60.60,
-                          "orki_fee": null,
+                          "client_fee": null,
                           "network_fee": 0.05,
                           "fiat_amount": 400,
                           "crypto_amount": 1500,
@@ -292,6 +186,7 @@
                           "crypto_currency": "eth",
                           "network": "ethereum",
                           "payment_method": "credit_debit_card",
+                          "partner_context": "order-12345",
                           "status": "success",
                           "provider": "stripe",
                           "created_at": "2025-05-31T22:53:51.000000Z",
@@ -306,7 +201,7 @@
                           "exchange_rate": 1618.12,
                           "transaction_hash": "6e9b376b9b8f6e1648e9b897e3fab31563ec5438c5d53d774c09061357d34677",
                           "provider_fee": null,
-                          "orki_fee": null,
+                          "client_fee": null,
                           "network_fee": null,
                           "fiat_amount": 40000,
                           "crypto_amount": 18.54,
@@ -314,6 +209,7 @@
                           "crypto_currency": "usdt",
                           "network": "ton",
                           "payment_method": "bank_transfer",
+                          "partner_context": null,
                           "status": "success",
                           "provider": "fonbnk",
                           "created_at": "2025-06-01T00:47:07.000000Z",
@@ -326,9 +222,9 @@
                         "currentPage": 1,
                         "lastPage": 5,
                         "firstPage": 1,
-                        "firstPageUrl": "https://money.orki.test/api/v1/partner/transactions?page=1",
-                        "lastPageUrl": "https://money.orki.test/api/v1/partner/transactions?page=5",
-                        "nextPageUrl": "https://money.orki.test/api/v1/partner/transactions?page=2",
+                        "firstPageUrl": "https://api.money.orki.io/api/v1/partner/transactions?page=1",
+                        "lastPageUrl": "https://api.money.orki.io/api/v1/partner/transactions?page=5",
+                        "nextPageUrl": "https://api.money.orki.io/api/v1/partner/transactions?page=2",
                         "previousPageUrl": null
                       }
                     },
@@ -343,7 +239,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "transactions": {
+                        "data": {
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -380,7 +276,7 @@
                                 "type": "number",
                                 "example": 60.60
                               },
-                              "orki_fee": {
+                              "client_fee": {
                                 "type": "string",
                                 "example": null
                               },
@@ -411,6 +307,10 @@
                               "payment_method": {
                                 "type": "string",
                                 "example": "credit_debit_card"
+                              },
+                              "partner_context": {
+                                "type": ["string", "null"],
+                                "example": "order-12345"
                               },
                               "status": {
                                 "type": "string",
@@ -456,15 +356,15 @@
                             },
                             "firstPageUrl": {
                               "type": "string",
-                              "example": "https://money.orki.test/api/v1/partner/transactions?page=1"
+                              "example": "https://api.money.orki.io/api/v1/partner/transactions?page=1"
                             },
                             "lastPageUrl": {
                               "type": "string",
-                              "example": "https://money.orki.test/api/v1/partner/transactions?page=5"
+                              "example": "https://api.money.orki.io/api/v1/partner/transactions?page=5"
                             },
                             "nextPageUrl": {
                               "type": "string",
-                              "example": "https://money.orki.test/api/v1/partner/transactions?page=2"
+                              "example": "https://api.money.orki.io/api/v1/partner/transactions?page=2"
                             },
                             "previousPageUrl": {
                               "type": "string",
@@ -493,12 +393,12 @@
         ]
         
       },
-       "post": {
+      "post": {
         "summary": "Create a Transaction",
-        "operationId": "postApiV1MerchantQuotesBuy",
+        "operationId": "createPartnerTransaction",
         "description": "",
         "parameters": [],
-        "tags": ["Quotes API"],
+        "tags": ["Transactions"],
         "requestBody": {
           "required": true,
           "content": {
@@ -561,7 +461,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "msg": { "type": "string", "example": "success" },
+                    "msg": { "type": "string", "example": "Success" },
                     "data": {
                       "type": "object",
                       "properties": {
@@ -586,7 +486,7 @@
                     "code": { "type": "integer", "example": 200 }
                   },
                   "example": {
-                    "msg": "success",
+                    "msg": "Success",
                     "data": {
                       "transaction_id": "01k8qrw1j0f2mvd99x33ep160s",
                       "provider": {
@@ -836,12 +736,12 @@
             "in": "query",
             "name": "type",
             "description": "the trade type.",
-            "example": "SELL",
-            "required": false,
+            "example": "BUY",
+            "required": true,
             "schema": {
               "type": "string",
               "description": "the trade type.",
-              "example": "SELL",
+              "example": "BUY",
               "nullable": false,
               "enum": [
                 "BUY",
@@ -902,6 +802,11 @@
                               "tagline": "Visa, MasterCard, etc."
                             }
                           ]
+                        },
+                        "recommended": {
+                          "type": "string",
+                          "description": "The highest-ranked payment method for the requested fiat currency, trade type, and device.",
+                          "example": "credit_debit_card"
                         }
                       }
                     },
@@ -930,7 +835,8 @@
                           "name": "Card Payment",
                           "tagline": "Visa, MasterCard, etc."
                         }
-                      ]
+                      ],
+                      "recommended": "credit_debit_card"
                     },
                     "success": true,
                     "code": 200
@@ -947,9 +853,10 @@
     },
     "/api/v1/partner/providers": {
       "get": {
-        "summary": "",
+        "summary": "List providers",
         "operationId": "getApiV1MerchantProviders",
         "description": "",
+        "security": [],
         "parameters": [],
         "responses": {
           "200": {
@@ -1185,198 +1092,9 @@
           }
         }
       }
-    },
-    "/api/v1/defaults": {
-      "get": {
-        "summary": "",
-        "operationId": "getApiV1Defaults",
-        "description": "",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "X-ORKI-API-KEY",
-            "description": "",
-            "example": "string required The API key for authentication.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {},
-        "tags": [
-          "Quotes API"
-        ]
-      }
-    },
-    "/api/v1/partner/quotes/selected": {
-      "patch": {
-        "summary": "",
-        "operationId": "patchApiV1MerchantQuotesSelected",
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "msg": "Success",
-                    "data": null,
-                    "success": true,
-                    "code": 200
-                  },
-                  "properties": {
-                    "msg": {
-                      "type": "string",
-                      "example": "Success"
-                    },
-                    "data": {
-                      "type": "string",
-                      "example": null
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "code": {
-                      "type": "integer",
-                      "example": 200
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Quotes API"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "provider": {
-                    "type": "string",
-                    "description": "",
-                    "example": "coinify",
-                    "nullable": false
-                  },
-                  "request_id": {
-                    "type": "string",
-                    "description": "",
-                    "example": "ad3f2853-decc-4e6f-a565-917d7d723e5b",
-                    "nullable": false
-                  }
-                },
-                "required": [
-                  "provider",
-                  "request_id"
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
-        "requestBody": {
-          "description": "Plant added to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
-          }
-        }
-      }
     }
   },
   "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "Cryptocurrencies": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the coin",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "securitySchemes": {
       "ApiKeyAuth": {
         "type": "apiKey",
