@@ -73,6 +73,40 @@ Here you’ll be able to generate and manage your API keys.
 
 ---
 
+## Try your first sandbox quote
+
+Once you have a TEST API key, use this known-good combination to confirm your integration is working:
+
+| Field | Value |
+| --- | --- |
+| Fiat currency | `USD` |
+| Cryptocurrency | `USDT` |
+| Network | `tron` |
+| Payment method | `credit_debit_card` |
+| Transaction type | `BUY` |
+| Amount | `300` |
+
+```bash
+curl --get "https://sandbox.money.orki.io/api/v1/partner/quotes" \
+  --header "X-ORKI-API-KEY: YOUR_TEST_API_KEY" \
+  --data-urlencode "fiat_currency=USD" \
+  --data-urlencode "crypto_currency=USDT" \
+  --data-urlencode "network=tron" \
+  --data-urlencode "payment_method=credit_debit_card" \
+  --data-urlencode "amount=300" \
+  --data-urlencode "type=BUY"
+```
+
+The response returns the currently available provider quotes for this route. No funds move when you request a quote.
+
+<Note>
+  Use a TEST API key with the sandbox URL. Provider availability and quoted amounts can change in real time.
+</Note>
+
+For the complete request and response reference, continue to [API Integration](/api-integration).
+
+---
+
 ## Support
 
 If you encounter any issues during onboarding, reach out to our support team at **[darshan@orki.io](mailto:darshan@orki.io)**.  

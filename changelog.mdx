@@ -6,6 +6,26 @@ rss: true
 ---
 
 <Update
+  label="August 27, 2026"
+  description="Partner API logging and NGN quote availability"
+  tags={["API", "Quotes", "Terminal"]}
+>
+
+## API request logs
+
+- Restored request logging for authenticated `/api/v1/partner` endpoints. Requests that pass API key and partner-access checks now appear in the account's API Logs view in the Terminal.
+- API logs record the request path, HTTP method, response status code, success or failure state, and timestamp. Request and response bodies are not stored in these logs.
+- Sandbox and production logs are isolated. A request made through `sandbox.money.orki.io` does not appear in the production environment's logs, and vice versa.
+- This is an observability update only; partner endpoint request and response structures have not changed.
+
+## NGN card quotes
+
+- Corrected BUY quote validation for Nigerian naira amounts. Valid `NGN` to `BTC` on `mainnet` quote requests using `credit_debit_card` can now return MoonPay when it is available for the requested amount and route.
+- Provider availability, exchange rates, and transaction limits remain dynamic and are confirmed during quote discovery.
+
+</Update>
+
+<Update
   label="August 25, 2026"
   description="Sandbox base URL and API reference corrections"
   tags={["API", "Sandbox", "Documentation"]}

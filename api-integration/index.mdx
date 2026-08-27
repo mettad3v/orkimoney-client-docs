@@ -29,6 +29,14 @@ All endpoints in this guide use the `/api/v1/partner` base path. Use the same pa
 Use TEST API keys with the sandbox base URL. The sandbox supports the partner endpoints documented in this guide, including Transak staging quotes, checkout-session creation, and sandbox transaction retrieval. Creating a sandbox transaction does not initiate payment. Provider completion, status callbacks, and webhook delivery are not simulated end to end.
 </Info>
 
+## API request logs
+
+Authenticated requests to `/api/v1/partner` endpoints are recorded in the API Logs view in the Terminal after the API key and account's Partner API access have been validated.
+
+Each entry contains the request path, HTTP method, response status code, success or failure state, and timestamp. Request parameters, request bodies, response bodies, and API key values are not included in these log entries.
+
+Logs are environment-specific: sandbox requests appear only in the sandbox account data, while production requests appear only in production. API logging does not change an endpoint's request or response structure.
+
 ## Destination wallets for BUY transactions
 
 Orki does not configure a partner-level destination wallet for ramp purchases. The destination wallet and network are determined separately for each transaction.
