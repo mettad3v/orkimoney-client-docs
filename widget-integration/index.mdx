@@ -32,26 +32,26 @@ For most providers, the buyer enters or confirms the wallet address and network 
 
 ### Transaction Modes
 
-The widget supports **three modes**, controlled by the `type` query parameter:  
+The widget supports **three modes**, controlled by the `mode` query parameter:
 
-- **Buy (`type=buy`)**  Users purchase crypto with fiat.  
+- **Buy (`mode=BUY`)** — Users purchase crypto with fiat.
      ```
-     https://widget.orki.io?type=buy
-     ```
-
-- **Sell (`type=sell`)**   Users sell crypto and receive fiat.  
-     ```
-     https://widget.orki.io?type=sell
+     https://pay.demo.money.orki.io?mode=BUY
      ```
 
-- **Swap (`type=swap`)**   Users swap one cryptocurrency for another.  
+- **Sell (`mode=SELL`)** — Users sell crypto and receive fiat.
      ```
-     https://widget.orki.io?type=swap
+     https://pay.demo.money.orki.io?mode=SELL
      ```
 
-You may enable a combination of those modes in the widget by combining types
+- **Swap (`mode=SWAP`)** — Users swap one cryptocurrency for another.
+     ```
+     https://pay.demo.money.orki.io?mode=SWAP
+     ```
+
+You may enable a combination of those modes by passing a comma-separated list:
 ```
-https://widget.orki.io?type=buy,sell,swap
+https://pay.demo.money.orki.io?mode=BUY,SELL,SWAP
 ```
 
 In addition to the `mode` query parameter, you can pass the other supported [query parameters](/widget-integration/supported-query-params).
@@ -65,14 +65,14 @@ In addition to the `mode` query parameter, you can pass the other supported [que
    - Construct the widget URL.  
 
 2. **Embed or redirect**  
-   - Display the widget in an `<iframe>` 
+   - Redirect users to the hosted widget URL.
    ```
-   <a href="https://buy.onramper.com?mode=buy&apiKey=api_key_here" target="_blank" class="button">Buy Crypto</a>
+   <a href="https://pay.demo.money.orki.io?mode=BUY&apiKey=api_key_here" target="_blank" class="button">Buy Crypto</a>
    ```
-   - Redirect users to the hosted widget URL.  
+   - Or display the widget in an `<iframe>`.
    ```
    <iframe        
-    src="https://buy.onramper.com?mode=buy&apiKey=api_key_here"
+    src="https://pay.demo.money.orki.io?mode=BUY&apiKey=api_key_here"
     title="Orki Ramp Widget"
     width="420px"
     height="630px"
