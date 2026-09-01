@@ -22,7 +22,7 @@ Requests to our trade API endpoints require authentication via an API key.
 Partner API endpoints use the `/api/v1/partner` base path in both environments. For example, the full production URL for the fiat currencies endpoint is `https://api.money.orki.io/api/v1/partner/fiat-currencies`.
 
 <Info>
-Use LIVE API keys with the production base URL and TEST API keys with the sandbox base URL. The sandbox supports authenticated asset discovery, Transak staging quotes and checkout-session creation, and sandbox transaction creation and retrieval. Creating a sandbox transaction does not initiate a payment. Provider completion, status callbacks, and webhook delivery should be validated separately before going live.
+Use LIVE API keys with the production base URL and TEST API keys with the sandbox base URL. Sandbox lifecycle coverage varies by provider. Providers with a complete test lifecycle, including Stripe, can simulate checkout completion, provider callbacks, Orki transaction updates, and outgoing partner webhook delivery without moving real funds.
 </Info>
 
 <Steps>

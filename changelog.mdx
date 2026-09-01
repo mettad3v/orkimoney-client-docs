@@ -6,6 +6,34 @@ rss: true
 ---
 
 <Update
+  label="September 1, 2026"
+  description="Added explicit fee currencies to transaction webhooks"
+  tags={["API", "Webhooks", "Fees"]}
+>
+
+## Webhook fee reconciliation
+
+- Added `provider_fee_currency`, `orki_fee_currency`, and `network_fee_currency` alongside the existing webhook fee amounts.
+- Clarified that Orki fees are denominated in USD, while provider and network fee denominations can vary by provider and route.
+- Existing fee amount fields and event names are unchanged.
+
+</Update>
+
+<Update
+  label="September 1, 2026"
+  description="Clarified end-to-end sandbox lifecycle support"
+  tags={["Sandbox", "Webhooks", "Documentation"]}
+>
+
+## Sandbox lifecycle testing
+
+- Clarified that end-to-end sandbox behavior depends on the selected provider's test capabilities.
+- Documented Stripe as a supported path for testing checkout completion, provider callbacks, Orki transaction status updates, and outgoing partner webhook delivery.
+- Added the known Stripe test route: EUR to USDC on Ethereum using a credit or debit card.
+
+</Update>
+
+<Update
   label="August 27, 2026"
   description="Partner API logging and NGN quote availability"
   tags={["API", "Quotes", "Terminal"]}

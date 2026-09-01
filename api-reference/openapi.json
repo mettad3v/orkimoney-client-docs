@@ -61,8 +61,10 @@
                         "exchange_rate": { "type": "number", "example": 239.20 },
                         "transaction_hash": { "type": "string", "example": "random_hash_here" },
                         "provider_fee": { "type": "number", "example": 60.60 },
+                        "provider_fee_currency": { "type": ["string", "null"], "example": "USD" },
                         "client_fee": { "type": ["number", "null"], "example": null },
                         "network_fee": { "type": "number", "example": 0.05 },
+                        "network_fee_currency": { "type": ["string", "null"], "example": "USD" },
                         "fiat_amount": { "type": "number", "example": 400 },
                         "crypto_amount": { "type": "number", "example": 1500 },
                         "fiat_currency": { "type": "string", "example": "USD" },
@@ -90,8 +92,10 @@
                       "exchange_rate": 239.20,
                       "transaction_hash": "random_hash_here",
                       "provider_fee": 60.60,
+                      "provider_fee_currency": "USD",
                       "client_fee": null,
                       "network_fee": 0.05,
+                      "network_fee_currency": "USD",
                       "fiat_amount": 400,
                       "crypto_amount": 1500,
                       "fiat_currency": "USD",
@@ -178,8 +182,10 @@
                           "exchange_rate": 239.20,
                           "transaction_hash": "random_hash_here",
                           "provider_fee": 60.60,
+                          "provider_fee_currency": "USD",
                           "client_fee": null,
                           "network_fee": 0.05,
+                          "network_fee_currency": "USD",
                           "fiat_amount": 400,
                           "crypto_amount": 1500,
                           "fiat_currency": "USD",
@@ -201,8 +207,10 @@
                           "exchange_rate": 1618.12,
                           "transaction_hash": "6e9b376b9b8f6e1648e9b897e3fab31563ec5438c5d53d774c09061357d34677",
                           "provider_fee": null,
+                          "provider_fee_currency": null,
                           "client_fee": null,
                           "network_fee": null,
+                          "network_fee_currency": null,
                           "fiat_amount": 40000,
                           "crypto_amount": 18.54,
                           "fiat_currency": "NGN",
@@ -276,6 +284,10 @@
                                 "type": "number",
                                 "example": 60.60
                               },
+                              "provider_fee_currency": {
+                                "type": ["string", "null"],
+                                "example": "USD"
+                              },
                               "client_fee": {
                                 "type": "string",
                                 "example": null
@@ -283,6 +295,10 @@
                               "network_fee": {
                                 "type": "number",
                                 "example": 0.05
+                              },
+                              "network_fee_currency": {
+                                "type": ["string", "null"],
+                                "example": "USD"
                               },
                               "fiat_amount": {
                                 "type": "integer",

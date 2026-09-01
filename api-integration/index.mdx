@@ -26,8 +26,22 @@ Authenticate API requests with your partner API key in the `X-ORKI-API-KEY` head
 All endpoints in this guide use the `/api/v1/partner` base path. Use the same paths with the base URL for your intended environment.
 
 <Info>
-Use TEST API keys with the sandbox base URL. The sandbox supports the partner endpoints documented in this guide, including Transak staging quotes, checkout-session creation, and sandbox transaction retrieval. Creating a sandbox transaction does not initiate payment. Provider completion, status callbacks, and webhook delivery are not simulated end to end.
+Use TEST API keys with the sandbox base URL. Sandbox integrations use the provider's test environment where one is available, so lifecycle coverage varies by provider. Stripe supports a complete sandbox lifecycle, including checkout completion, provider status callbacks, Orki transaction updates, and outgoing partner webhook delivery without moving real funds.
 </Info>
+
+### End-to-end sandbox testing
+
+Stripe supports the complete sandbox path from quote and checkout through transaction completion and outgoing webhook delivery. A known test route is:
+
+| Field | Value |
+| --- | --- |
+| Fiat currency | `EUR` |
+| Cryptocurrency | `USDC` |
+| Network | `ethereum` |
+| Payment method | `credit_debit_card` |
+| Transaction type | `BUY` |
+
+Other providers may support only part of the sandbox lifecycle, such as quote discovery or checkout-session creation. If a provider does not issue sandbox completion callbacks, its transaction cannot progress through the remaining webhook lifecycle in Orki sandbox.
 
 ## API request logs
 
@@ -312,26 +326,31 @@ curl -X POST "https://api.money.orki.io/api/v1/partner/transactions" \
     "id": "12345",
     "provider_transaction_id": "abc-789",
     "partner_context": "abcd",
-    "type": "buy",
-    "sender_address": "0x123...",
+    "type": "BUY",
+    "sender_address": null,
     "recipient_address": "0x456...",
     "exchange_rate": "1.05",
     "transaction_hash": "0xdeadbeef...",
     "provider_fee": "2.50",
+    "provider_fee_currency": "USD",
     "orki_fee": "0.50",
+    "orki_fee_currency": "USD",
     "network_fee": "0.20",
+    "network_fee_currency": "USD",
     "fiat_amount": "100.00",
     "crypto_amount": "0.0023",
     "fiat_currency": "USD",
     "crypto_currency": "ETH",
-    "network": "ethereum",
-    "transaction_method": "card",
+    "network": "ETHEREUM",
+    "payment_method": "credit_debit_card",
     "status": "success",
     "provider": "stripe",
     "created_at": "2025-08-26T10:00:00Z"
   }
 }
 ```
+
+Each fee amount has a companion currency field. `orki_fee` is denominated in USD. Provider and network fee denominations vary by provider and route, so use `provider_fee_currency` and `network_fee_currency` rather than inferring either value from the transaction currencies.
 
 **Events:**
 

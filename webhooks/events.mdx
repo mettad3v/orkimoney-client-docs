@@ -34,20 +34,23 @@ We send webhook events whenever important activity happens (for example: transac
     "id": "12345",
     "provider_transaction_id": "abc-789",
     "partner_context": "order-12345",
-    "type": "buy",
-    "sender_address": "0x123...",
+    "type": "BUY",
+    "sender_address": null,
     "recipient_address": "0x456...",
     "exchange_rate": "1.05",
     "transaction_hash": "0xdeadbeef...",
     "provider_fee": "2.50",
+    "provider_fee_currency": "USD",
     "orki_fee": "0.50",
+    "orki_fee_currency": "USD",
     "network_fee": "0.20",
+    "network_fee_currency": "USD",
     "fiat_amount": "100.00",
     "crypto_amount": "0.0023",
     "fiat_currency": "USD",
     "crypto_currency": "ETH",
-    "network": "ethereum",
-    "transaction_method": "card",
+    "network": "ETHEREUM",
+    "payment_method": "credit_debit_card",
     "status": "success",
     "provider": "stripe",
     "created_at": "2025-08-26T10:00:00Z"
@@ -76,8 +79,11 @@ We send webhook events whenever important activity happens (for example: transac
 | `exchange_rate`           | string | Fiat-to-crypto rate applied.                         |
 | `transaction_hash`        | string | Blockchain transaction hash.                         |
 | `provider_fee`            | string | Fee charged by provider.                             |
+| `provider_fee_currency`   | string \| null | Currency or asset code for `provider_fee`, or `null` when the fee is unavailable. |
 | `orki_fee`                | string | Our platform fee.                                    |
+| `orki_fee_currency`       | string \| null | Currency code for `orki_fee`. This is `USD` when an Orki fee is supplied, or `null` when unavailable. |
 | `network_fee`             | string | Network (gas) fee.                                   |
+| `network_fee_currency`    | string \| null | Currency or asset code for `network_fee`, or `null` when the fee is unavailable. |
 | `fiat_amount`             | string | Amount in fiat currency.                             |
 | `crypto_amount`           | string | Amount in crypto.                                    |
 | `fiat_currency`           | string | ISO code of fiat currency (e.g. `USD`, `EUR`).       |
@@ -91,3 +97,17 @@ We send webhook events whenever important activity happens (for example: transac
 <Note>
 `partner_context` is included in the `data` object for transaction webhooks. Store your own transaction or order identifier in this field when creating the transaction; if you omit it, the webhook returns `null`.
 </Note>
+
+<Note>
+Use `provider_fee_currency`, `orki_fee_currency`, and `network_fee_currency` when reconciling fees. Provider and network fee denominations can vary by provider and route; do not infer them from `fiat_currency` or `crypto_currency`.
+</Note>
+
+## Fee denominations
+
+| Amount field | Denomination |
+| --- | --- |
+| `provider_fee` | The provider's reported fee denomination, returned in `provider_fee_currency`. |
+| `orki_fee` | USD, returned as `orki_fee_currency: "USD"`. |
+| `network_fee` | The provider's reported network-fee denomination, returned in `network_fee_currency`. Depending on the provider and route, this can be fiat or a crypto asset. |
+
+When a fee amount is `null`, its companion currency is also `null`. For example, Stripe reports its transaction and network fees in the source fiat currency, while Guardarian and Coinify can report the provider fee in fiat and the network fee in a crypto asset.
